@@ -1,0 +1,472 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		45208F51190D1F54003F1ADD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45208F50190D1F54003F1ADD /* Foundation.framework */; };
+		45208F53190D1F54003F1ADD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45208F52190D1F54003F1ADD /* CoreGraphics.framework */; };
+		45208F55190D1F54003F1ADD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45208F54190D1F54003F1ADD /* UIKit.framework */; };
+		45208F5B190D1F54003F1ADD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 45208F59190D1F54003F1ADD /* InfoPlist.strings */; };
+		45208F5D190D1F54003F1ADD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 45208F5C190D1F54003F1ADD /* main.m */; };
+		45208F61190D1F54003F1ADD /* meetAppAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 45208F60190D1F54003F1ADD /* meetAppAppDelegate.m */; };
+		45208F64190D1F54003F1ADD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45208F62190D1F54003F1ADD /* Main.storyboard */; };
+		45208F67190D1F54003F1ADD /* meetAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45208F66190D1F54003F1ADD /* meetAppViewController.m */; };
+		45208F69190D1F54003F1ADD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 45208F68190D1F54003F1ADD /* Images.xcassets */; };
+		45208F70190D1F54003F1ADD /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45208F6F190D1F54003F1ADD /* XCTest.framework */; };
+		45208F71190D1F54003F1ADD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45208F50190D1F54003F1ADD /* Foundation.framework */; };
+		45208F72190D1F54003F1ADD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45208F54190D1F54003F1ADD /* UIKit.framework */; };
+		45208F7A190D1F54003F1ADD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 45208F78190D1F54003F1ADD /* InfoPlist.strings */; };
+		45208F7C190D1F54003F1ADD /* Let_s_MeetTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 45208F7B190D1F54003F1ADD /* Let_s_MeetTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		45208F73190D1F54003F1ADD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 45208F45190D1F54003F1ADD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 45208F4C190D1F54003F1ADD;
+			remoteInfo = "Let's Meet";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		45208F4D190D1F54003F1ADD /* Let's Meet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Let's Meet.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		45208F50190D1F54003F1ADD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		45208F52190D1F54003F1ADD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		45208F54190D1F54003F1ADD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		45208F58190D1F54003F1ADD /* Let's Meet-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Let's Meet-Info.plist"; sourceTree = "<group>"; };
+		45208F5A190D1F54003F1ADD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		45208F5C190D1F54003F1ADD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		45208F5E190D1F54003F1ADD /* Let's Meet-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Let's Meet-Prefix.pch"; sourceTree = "<group>"; };
+		45208F5F190D1F54003F1ADD /* meetAppAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = meetAppAppDelegate.h; sourceTree = "<group>"; };
+		45208F60190D1F54003F1ADD /* meetAppAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = meetAppAppDelegate.m; sourceTree = "<group>"; };
+		45208F63190D1F54003F1ADD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		45208F65190D1F54003F1ADD /* meetAppViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = meetAppViewController.h; sourceTree = "<group>"; };
+		45208F66190D1F54003F1ADD /* meetAppViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = meetAppViewController.m; sourceTree = "<group>"; };
+		45208F68190D1F54003F1ADD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		45208F6E190D1F54003F1ADD /* Let's MeetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Let's MeetTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		45208F6F190D1F54003F1ADD /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		45208F77190D1F54003F1ADD /* Let's MeetTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Let's MeetTests-Info.plist"; sourceTree = "<group>"; };
+		45208F79190D1F54003F1ADD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		45208F7B190D1F54003F1ADD /* Let_s_MeetTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Let_s_MeetTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		45208F4A190D1F54003F1ADD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				45208F53190D1F54003F1ADD /* CoreGraphics.framework in Frameworks */,
+				45208F55190D1F54003F1ADD /* UIKit.framework in Frameworks */,
+				45208F51190D1F54003F1ADD /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		45208F6B190D1F54003F1ADD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				45208F70190D1F54003F1ADD /* XCTest.framework in Frameworks */,
+				45208F72190D1F54003F1ADD /* UIKit.framework in Frameworks */,
+				45208F71190D1F54003F1ADD /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		45208F44190D1F54003F1ADD = {
+			isa = PBXGroup;
+			children = (
+				45208F56190D1F54003F1ADD /* Let's Meet */,
+				45208F75190D1F54003F1ADD /* Let's MeetTests */,
+				45208F4F190D1F54003F1ADD /* Frameworks */,
+				45208F4E190D1F54003F1ADD /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		45208F4E190D1F54003F1ADD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				45208F4D190D1F54003F1ADD /* Let's Meet.app */,
+				45208F6E190D1F54003F1ADD /* Let's MeetTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		45208F4F190D1F54003F1ADD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				45208F50190D1F54003F1ADD /* Foundation.framework */,
+				45208F52190D1F54003F1ADD /* CoreGraphics.framework */,
+				45208F54190D1F54003F1ADD /* UIKit.framework */,
+				45208F6F190D1F54003F1ADD /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		45208F56190D1F54003F1ADD /* Let's Meet */ = {
+			isa = PBXGroup;
+			children = (
+				45208F5F190D1F54003F1ADD /* meetAppAppDelegate.h */,
+				45208F60190D1F54003F1ADD /* meetAppAppDelegate.m */,
+				45208F62190D1F54003F1ADD /* Main.storyboard */,
+				45208F65190D1F54003F1ADD /* meetAppViewController.h */,
+				45208F66190D1F54003F1ADD /* meetAppViewController.m */,
+				45208F68190D1F54003F1ADD /* Images.xcassets */,
+				45208F57190D1F54003F1ADD /* Supporting Files */,
+			);
+			path = "Let's Meet";
+			sourceTree = "<group>";
+		};
+		45208F57190D1F54003F1ADD /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				45208F58190D1F54003F1ADD /* Let's Meet-Info.plist */,
+				45208F59190D1F54003F1ADD /* InfoPlist.strings */,
+				45208F5C190D1F54003F1ADD /* main.m */,
+				45208F5E190D1F54003F1ADD /* Let's Meet-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		45208F75190D1F54003F1ADD /* Let's MeetTests */ = {
+			isa = PBXGroup;
+			children = (
+				45208F7B190D1F54003F1ADD /* Let_s_MeetTests.m */,
+				45208F76190D1F54003F1ADD /* Supporting Files */,
+			);
+			path = "Let's MeetTests";
+			sourceTree = "<group>";
+		};
+		45208F76190D1F54003F1ADD /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				45208F77190D1F54003F1ADD /* Let's MeetTests-Info.plist */,
+				45208F78190D1F54003F1ADD /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		45208F4C190D1F54003F1ADD /* Let's Meet */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 45208F7F190D1F54003F1ADD /* Build configuration list for PBXNativeTarget "Let's Meet" */;
+			buildPhases = (
+				45208F49190D1F54003F1ADD /* Sources */,
+				45208F4A190D1F54003F1ADD /* Frameworks */,
+				45208F4B190D1F54003F1ADD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Let's Meet";
+			productName = "Let's Meet";
+			productReference = 45208F4D190D1F54003F1ADD /* Let's Meet.app */;
+			productType = "com.apple.product-type.application";
+		};
+		45208F6D190D1F54003F1ADD /* Let's MeetTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 45208F82190D1F54003F1ADD /* Build configuration list for PBXNativeTarget "Let's MeetTests" */;
+			buildPhases = (
+				45208F6A190D1F54003F1ADD /* Sources */,
+				45208F6B190D1F54003F1ADD /* Frameworks */,
+				45208F6C190D1F54003F1ADD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				45208F74190D1F54003F1ADD /* PBXTargetDependency */,
+			);
+			name = "Let's MeetTests";
+			productName = "Let's MeetTests";
+			productReference = 45208F6E190D1F54003F1ADD /* Let's MeetTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		45208F45190D1F54003F1ADD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = meetApp;
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = "Radosław Jarzynka";
+				TargetAttributes = {
+					45208F6D190D1F54003F1ADD = {
+						TestTargetID = 45208F4C190D1F54003F1ADD;
+					};
+				};
+			};
+			buildConfigurationList = 45208F48190D1F54003F1ADD /* Build configuration list for PBXProject "Let's Meet" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 45208F44190D1F54003F1ADD;
+			productRefGroup = 45208F4E190D1F54003F1ADD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				45208F4C190D1F54003F1ADD /* Let's Meet */,
+				45208F6D190D1F54003F1ADD /* Let's MeetTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		45208F4B190D1F54003F1ADD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				45208F69190D1F54003F1ADD /* Images.xcassets in Resources */,
+				45208F5B190D1F54003F1ADD /* InfoPlist.strings in Resources */,
+				45208F64190D1F54003F1ADD /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		45208F6C190D1F54003F1ADD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				45208F7A190D1F54003F1ADD /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		45208F49190D1F54003F1ADD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				45208F67190D1F54003F1ADD /* meetAppViewController.m in Sources */,
+				45208F5D190D1F54003F1ADD /* main.m in Sources */,
+				45208F61190D1F54003F1ADD /* meetAppAppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		45208F6A190D1F54003F1ADD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				45208F7C190D1F54003F1ADD /* Let_s_MeetTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		45208F74190D1F54003F1ADD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 45208F4C190D1F54003F1ADD /* Let's Meet */;
+			targetProxy = 45208F73190D1F54003F1ADD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		45208F59190D1F54003F1ADD /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				45208F5A190D1F54003F1ADD /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		45208F62190D1F54003F1ADD /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				45208F63190D1F54003F1ADD /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		45208F78190D1F54003F1ADD /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				45208F79190D1F54003F1ADD /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		45208F7D190D1F54003F1ADD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		45208F7E190D1F54003F1ADD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		45208F80190D1F54003F1ADD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Let's Meet/Let's Meet-Prefix.pch";
+				INFOPLIST_FILE = "Let's Meet/Let's Meet-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		45208F81190D1F54003F1ADD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Let's Meet/Let's Meet-Prefix.pch";
+				INFOPLIST_FILE = "Let's Meet/Let's Meet-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		45208F83190D1F54003F1ADD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Let's Meet.app/Let's Meet";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Let's Meet/Let's Meet-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Let's MeetTests/Let's MeetTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		45208F84190D1F54003F1ADD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Let's Meet.app/Let's Meet";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Let's Meet/Let's Meet-Prefix.pch";
+				INFOPLIST_FILE = "Let's MeetTests/Let's MeetTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		45208F48190D1F54003F1ADD /* Build configuration list for PBXProject "Let's Meet" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				45208F7D190D1F54003F1ADD /* Debug */,
+				45208F7E190D1F54003F1ADD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		45208F7F190D1F54003F1ADD /* Build configuration list for PBXNativeTarget "Let's Meet" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				45208F80190D1F54003F1ADD /* Debug */,
+				45208F81190D1F54003F1ADD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		45208F82190D1F54003F1ADD /* Build configuration list for PBXNativeTarget "Let's MeetTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				45208F83190D1F54003F1ADD /* Debug */,
+				45208F84190D1F54003F1ADD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 45208F45190D1F54003F1ADD /* Project object */;
+}
