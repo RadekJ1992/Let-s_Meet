@@ -18,6 +18,7 @@
 @synthesize pin;
 @synthesize contacts;
 @synthesize contactsTable;
+@synthesize datePicker;
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"contacts"]) {
@@ -45,6 +46,12 @@
         NSString *text = [NSString stringWithFormat:@"%f,%f", pin.coordinate.latitude, pin.coordinate.longitude];
         [self coordinatesField].text = text;
     }
+    CGAffineTransform rotate = CGAffineTransformMakeRotation(0/*-1.57*/);
+    rotate = CGAffineTransformScale(rotate, /*.46, 2.25*/ 1, .85);
+    CGAffineTransform t0 = CGAffineTransformMakeTranslation(/*3, 22.5*/0,0);
+    datePicker.transform = CGAffineTransformConcat(rotate,t0);
+    [self.view addSubview:datePicker];
+
     if (contacts) {
         
     }
@@ -68,18 +75,20 @@
     static NSString *unifiedID = @"aCellID";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:unifiedID];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:unifiedID];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:unifiedID];
         
     }
     
     for (id key in self.contacts) {
         NSLog(@"key: %@, value: %@", key, [self.contacts objectForKey:key]);
+        cell.textLabel.text  = key;
+        cell.detailTextLabel.text  = [self.contacts objectForKey:key];
     }
     
-    NSString *nameString = [self.contacts objectForKey:@"firstName"];
-    NSString *phoneString = [self.contacts objectForKey:@"lastName"];
-    cell.textLabel.text  = nameString;
-    cell.detailTextLabel.text  = phoneString;
+    //NSString *nameString = [self.contacts objectForKey:@"name"];
+    //NSString *phoneString = [self.contacts objectForKey:@"phone"];
+    //cell.textLabel.text  = nameString;
+   // cell.detailTextLabel.text  = phoneString;
     
     
     return cell;
@@ -97,4 +106,6 @@
 }
 */
 
+- (IBAction)dateChanged:(id)sender {
+}
 @end

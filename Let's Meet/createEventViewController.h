@@ -15,5 +15,7 @@
 @property (weak, nonatomic) MapPin *pin;
 @property (strong, nonatomic) NSMutableDictionary *contacts;
 @property (weak, nonatomic) IBOutlet UITableView *contactsTable;
+@property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
+- (IBAction)dateChanged:(id)sender;
 
 @end
