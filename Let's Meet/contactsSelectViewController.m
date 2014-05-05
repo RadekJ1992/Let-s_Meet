@@ -80,7 +80,7 @@
         NSString *phone=(__bridge NSString *) ABMultiValueCopyValueAtIndex(mul,0);
         [contacts setObject:phone forKey:name];
     }
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
     //UIViewController *myController = [self.storyboard instantiateViewControllerWithIdentifier:@"createEventViewController"];
     //[self.navigationController pushViewController: myController animated:YES];
     [self performSegueWithIdentifier: @"contact" sender: nil];
