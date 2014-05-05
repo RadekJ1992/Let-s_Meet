@@ -21,6 +21,15 @@
 		45208F72190D1F54003F1ADD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45208F54190D1F54003F1ADD /* UIKit.framework */; };
 		45208F7A190D1F54003F1ADD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 45208F78190D1F54003F1ADD /* InfoPlist.strings */; };
 		45208F7C190D1F54003F1ADD /* Let_s_MeetTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 45208F7B190D1F54003F1ADD /* Let_s_MeetTests.m */; };
+		45208F86190D1F5C003F1ADD /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45208F85190D1F5C003F1ADD /* MapKit.framework */; };
+		45208F88190D2972003F1ADD /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45208F87190D2972003F1ADD /* AddressBook.framework */; };
+		45208F8A190D2977003F1ADD /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45208F89190D2977003F1ADD /* AddressBookUI.framework */; };
+		45208F8D190D2BA7003F1ADD /* settingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45208F8C190D2BA7003F1ADD /* settingsViewController.m */; };
+		45208F90190D2C0B003F1ADD /* createEventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45208F8F190D2C0B003F1ADD /* createEventViewController.m */; };
+		45208F93190D2C4B003F1ADD /* locationSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45208F92190D2C4B003F1ADD /* locationSelectViewController.m */; };
+		45208F99190D2D0D003F1ADD /* contactsSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45208F98190D2D0D003F1ADD /* contactsSelectViewController.m */; };
+		45208F9F190D2D96003F1ADD /* eventsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45208F9E190D2D96003F1ADD /* eventsListViewController.m */; };
+		45208FA2190D3196003F1ADD /* MapPin.m in Sources */ = {isa = PBXBuildFile; fileRef = 45208FA1190D3196003F1ADD /* MapPin.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +62,21 @@
 		45208F77190D1F54003F1ADD /* Let's MeetTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Let's MeetTests-Info.plist"; sourceTree = "<group>"; };
 		45208F79190D1F54003F1ADD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		45208F7B190D1F54003F1ADD /* Let_s_MeetTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Let_s_MeetTests.m; sourceTree = "<group>"; };
+		45208F85190D1F5C003F1ADD /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		45208F87190D2972003F1ADD /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		45208F89190D2977003F1ADD /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		45208F8B190D2BA7003F1ADD /* settingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = settingsViewController.h; sourceTree = "<group>"; };
+		45208F8C190D2BA7003F1ADD /* settingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = settingsViewController.m; sourceTree = "<group>"; };
+		45208F8E190D2C0B003F1ADD /* createEventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = createEventViewController.h; sourceTree = "<group>"; };
+		45208F8F190D2C0B003F1ADD /* createEventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = createEventViewController.m; sourceTree = "<group>"; };
+		45208F91190D2C4B003F1ADD /* locationSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = locationSelectViewController.h; sourceTree = "<group>"; };
+		45208F92190D2C4B003F1ADD /* locationSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = locationSelectViewController.m; sourceTree = "<group>"; };
+		45208F97190D2D0D003F1ADD /* contactsSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = contactsSelectViewController.h; sourceTree = "<group>"; };
+		45208F98190D2D0D003F1ADD /* contactsSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = contactsSelectViewController.m; sourceTree = "<group>"; };
+		45208F9D190D2D96003F1ADD /* eventsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eventsListViewController.h; path = ../eventsListViewController.h; sourceTree = "<group>"; };
+		45208F9E190D2D96003F1ADD /* eventsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = eventsListViewController.m; path = ../eventsListViewController.m; sourceTree = "<group>"; };
+		45208FA0190D3196003F1ADD /* MapPin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapPin.h; sourceTree = "<group>"; };
+		45208FA1190D3196003F1ADD /* MapPin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapPin.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,8 +84,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45208F8A190D2977003F1ADD /* AddressBookUI.framework in Frameworks */,
+				45208F88190D2972003F1ADD /* AddressBook.framework in Frameworks */,
 				45208F53190D1F54003F1ADD /* CoreGraphics.framework in Frameworks */,
 				45208F55190D1F54003F1ADD /* UIKit.framework in Frameworks */,
+				45208F86190D1F5C003F1ADD /* MapKit.framework in Frameworks */,
 				45208F51190D1F54003F1ADD /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -101,6 +128,9 @@
 		45208F4F190D1F54003F1ADD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				45208F89190D2977003F1ADD /* AddressBookUI.framework */,
+				45208F87190D2972003F1ADD /* AddressBook.framework */,
+				45208F85190D1F5C003F1ADD /* MapKit.framework */,
 				45208F50190D1F54003F1ADD /* Foundation.framework */,
 				45208F52190D1F54003F1ADD /* CoreGraphics.framework */,
 				45208F54190D1F54003F1ADD /* UIKit.framework */,
@@ -112,13 +142,25 @@
 		45208F56190D1F54003F1ADD /* Let's Meet */ = {
 			isa = PBXGroup;
 			children = (
+				45208F9D190D2D96003F1ADD /* eventsListViewController.h */,
+				45208F9E190D2D96003F1ADD /* eventsListViewController.m */,
 				45208F5F190D1F54003F1ADD /* meetAppAppDelegate.h */,
 				45208F60190D1F54003F1ADD /* meetAppAppDelegate.m */,
 				45208F62190D1F54003F1ADD /* Main.storyboard */,
+				45208F97190D2D0D003F1ADD /* contactsSelectViewController.h */,
+				45208F98190D2D0D003F1ADD /* contactsSelectViewController.m */,
+				45208F91190D2C4B003F1ADD /* locationSelectViewController.h */,
+				45208F92190D2C4B003F1ADD /* locationSelectViewController.m */,
+				45208F8E190D2C0B003F1ADD /* createEventViewController.h */,
+				45208F8F190D2C0B003F1ADD /* createEventViewController.m */,
 				45208F65190D1F54003F1ADD /* meetAppViewController.h */,
 				45208F66190D1F54003F1ADD /* meetAppViewController.m */,
+				45208F8B190D2BA7003F1ADD /* settingsViewController.h */,
+				45208F8C190D2BA7003F1ADD /* settingsViewController.m */,
 				45208F68190D1F54003F1ADD /* Images.xcassets */,
 				45208F57190D1F54003F1ADD /* Supporting Files */,
+				45208FA0190D3196003F1ADD /* MapPin.h */,
+				45208FA1190D3196003F1ADD /* MapPin.m */,
 			);
 			path = "Let's Meet";
 			sourceTree = "<group>";
@@ -200,6 +242,16 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Radosław Jarzynka";
 				TargetAttributes = {
+					45208F4C190D1F54003F1ADD = {
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.iOS = {
+								enabled = 1;
+							};
+						};
+					};
 					45208F6D190D1F54003F1ADD = {
 						TestTargetID = 45208F4C190D1F54003F1ADD;
 					};
@@ -250,9 +302,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45208FA2190D3196003F1ADD /* MapPin.m in Sources */,
 				45208F67190D1F54003F1ADD /* meetAppViewController.m in Sources */,
+				45208F93190D2C4B003F1ADD /* locationSelectViewController.m in Sources */,
 				45208F5D190D1F54003F1ADD /* main.m in Sources */,
+				45208F90190D2C0B003F1ADD /* createEventViewController.m in Sources */,
 				45208F61190D1F54003F1ADD /* meetAppAppDelegate.m in Sources */,
+				45208F9F190D2D96003F1ADD /* eventsListViewController.m in Sources */,
+				45208F8D190D2BA7003F1ADD /* settingsViewController.m in Sources */,
+				45208F99190D2D0D003F1ADD /* contactsSelectViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -457,6 +515,7 @@
 				45208F81190D1F54003F1ADD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		45208F82190D1F54003F1ADD /* Build configuration list for PBXNativeTarget "Let's MeetTests" */ = {
 			isa = XCConfigurationList;
@@ -465,6 +524,7 @@
 				45208F84190D1F54003F1ADD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
