@@ -7,6 +7,7 @@
 //
 
 #import "createEventViewController.h"
+#import "contactsSelectViewController.h"
 
 @interface createEventViewController ()
 
@@ -17,6 +18,15 @@
 @synthesize pin;
 @synthesize contacts;
 @synthesize contactsTable;
+
+-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"contacts"]) {
+        if (contacts) {
+            contactsSelectViewController *cEVC = [segue destinationViewController];
+            cEVC.contacts = contacts;
+        }
+    }
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -38,7 +48,7 @@
     if (contacts) {
         
     }
-    // Do any additional setup after loading the view.
+        // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning

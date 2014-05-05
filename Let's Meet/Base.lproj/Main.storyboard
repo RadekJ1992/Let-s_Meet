@@ -144,7 +144,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Back"/>
                                 <connections>
-                                    <segue destination="oPW-Hv-4gZ" kind="modal" id="XEq-gU-oTn"/>
+                                    <segue destination="oPW-Hv-4gZ" kind="modal" identifier="contact" id="XEq-gU-oTn"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -206,7 +206,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="rmR-qL-F4k" kind="modal" identifier="contact" id="heD-X0-WDV"/>
+                                    <segue destination="rmR-qL-F4k" kind="modal" identifier="contacts" id="heD-X0-WDV"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JzT-Jk-Tjy">

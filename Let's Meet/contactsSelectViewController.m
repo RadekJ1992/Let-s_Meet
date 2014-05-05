@@ -14,12 +14,13 @@
 @end
 
 @implementation contactsSelectViewController
+@synthesize contacts;
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"contact"]) {
-        if (contact) {
+        if (contacts) {
             createEventViewController *cEVC = [segue destinationViewController];
-            cEVC.contacts = contact;
+            cEVC.contacts = contacts;
         }
     }
 }
@@ -36,6 +37,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    if (!contacts) {
+        contacts = [[NSMutableDictionary alloc]init];
+        
+    }
     ABPeoplePickerNavigationController * peoplePicker = [[ABPeoplePickerNavigationController alloc] init];
     peoplePicker.peoplePickerDelegate = self;
     // Display only a person's phone and address
@@ -44,10 +49,13 @@
                                 nil];
     
     peoplePicker.displayedProperties = displayedItems;
-    
+    /*
+    peoplePicker.topViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addPerson:)];
+    */
     [self.view addSubview:peoplePicker.view];
     [self addChildViewController:peoplePicker];
     [peoplePicker didMoveToParentViewController:self];
+    //[self presentModalViewController:peoplePicker animated:YES];
     // Do any additional setup after loading the view.
 }
 
@@ -58,70 +66,36 @@
 }
 
 -(BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person {
-    contact = [[NSMutableDictionary alloc]
-               initWithObjects:@[@"", @"", @""]
-               forKeys:@[@"firstName", @"lastName", @"mobileNumber"]];
+    return YES;
     
-    CFTypeRef generalCFObject;
-    generalCFObject = ABRecordCopyValue(person, kABPersonFirstNameProperty);
-    if (generalCFObject) {
-        [contact setObject:(__bridge NSString *)generalCFObject forKey:@"firstName"];
-        CFRelease(generalCFObject);
-    }
-    generalCFObject = ABRecordCopyValue(person, kABPersonLastNameProperty);
-    if (generalCFObject) {
-        [contact setObject:(__bridge NSString *)generalCFObject forKey:@"lastName"];
-        CFRelease(generalCFObject);
-    }
-    //generalCFObject = ABRecordCopyValue(person, kABPersonPhoneProperty);
-    //if (property == kABPersonPhoneProperty) {
-        //if (generalCFObject) {
-        ABMultiValueRef mul;
-        mul=(__bridge ABMultiValueRef)((__bridge NSString *) ABRecordCopyValue(person, kABPersonPhoneProperty));
-        //int count= ABMultiValueGetCount(mul);
-        NSString *name=(__bridge NSString *) ABMultiValueCopyValueAtIndex(mul,0);
-        [contact setObject:name forKey:@"mobileNumber"];
-        CFRelease(generalCFObject);
-        //}
-    //}
-    [peoplePicker dismissViewControllerAnimated:YES completion:nil];
-    return NO;
-
-    //return YES;
 }
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier {
-//    contact = [[NSMutableDictionary alloc]
-//     initWithObjects:@[@"", @"", @""]
-//     forKeys:@[@"firstName", @"lastName", @"mobileNumber"]];
-//    
-//    CFTypeRef generalCFObject;
-//    generalCFObject = ABRecordCopyValue(person, kABPersonFirstNameProperty);
-//    if (generalCFObject) {
-//        [contact setObject:(__bridge NSString *)generalCFObject forKey:@"firstName"];
-//        CFRelease(generalCFObject);
-//    }
-//    generalCFObject = ABRecordCopyValue(person, kABPersonLastNameProperty);
-//    if (generalCFObject) {
-//        [contact setObject:(__bridge NSString *)generalCFObject forKey:@"lastName"];
-//        CFRelease(generalCFObject);
-//    }
-//    //generalCFObject = ABRecordCopyValue(person, kABPersonPhoneProperty);
-//    if (property == kABPersonPhoneProperty) {
-//        //if (generalCFObject) {
-//            ABMultiValueRef mul;
-//            mul=(__bridge ABMultiValueRef)((__bridge NSString *) ABRecordCopyValue(person, kABPersonPhoneProperty));
-//            //int count= ABMultiValueGetCount(mul);
-//            NSString *name=(__bridge NSString *) ABMultiValueCopyValueAtIndex(mul,0);
-//            [contact setObject:name forKey:@"mobileNumber"];
-//            CFRelease(generalCFObject);
-//        //}
-//    }
-//    
+
+    NSString *firstName = (__bridge NSString *)(ABRecordCopyValue(person, kABPersonFirstNameProperty));
+    NSString *lastName = (__bridge NSString *)(ABRecordCopyValue(person, kABPersonLastNameProperty));
+    NSString *name=[NSString stringWithFormat:@"%@|%@",firstName,lastName];
+    if (property == kABPersonPhoneProperty) {
+        ABMultiValueRef mul;
+        mul=(__bridge ABMultiValueRef)((__bridge NSString *) ABRecordCopyValue(person, kABPersonPhoneProperty));
+        NSString *phone=(__bridge NSString *) ABMultiValueCopyValueAtIndex(mul,0);
+        [contacts setObject:phone forKey:name];
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
+    //UIViewController *myController = [self.storyboard instantiateViewControllerWithIdentifier:@"createEventViewController"];
+    //[self.navigationController pushViewController: myController animated:YES];
+    [self performSegueWithIdentifier: @"contact" sender: nil];
     return NO;
 }
 - (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker {
     [peoplePicker dismissViewControllerAnimated:YES completion:nil];
 }
+/*
+-(IBAction)addPerson:(id)sender{
+    ABNewPersonViewController *view = [[ABNewPersonViewController alloc] init];
+  //  view.newPersonViewDelegate = self;
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:view];
+   [self.peoplePicker presentModalViewController:nc animated:YES];
+}*/
 
 /*
 #pragma mark - Navigation

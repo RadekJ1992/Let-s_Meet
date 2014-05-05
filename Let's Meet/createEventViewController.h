@@ -13,7 +13,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *coordinatesField;
 
 @property (weak, nonatomic) MapPin *pin;
-@property (weak, nonatomic) NSMutableDictionary *contacts;
+@property (strong, nonatomic) NSMutableDictionary *contacts;
 @property (weak, nonatomic) IBOutlet UITableView *contactsTable;
 
 @end

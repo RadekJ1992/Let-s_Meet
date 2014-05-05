@@ -12,5 +12,5 @@
 @interface contactsSelectViewController : UIViewController <ABPeoplePickerNavigationControllerDelegate> {
     NSMutableDictionary *contact;
 }
-
+@property (strong, nonatomic) NSMutableDictionary *contacts;
 @end
