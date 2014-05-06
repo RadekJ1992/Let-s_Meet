@@ -89,17 +89,18 @@
     
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 - (IBAction)dateChanged:(id)sender {
+    NSDate* sourceDate = [datePicker date];
+    
+    NSTimeZone* sourceTimeZone = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
+    NSTimeZone* destinationTimeZone = [NSTimeZone systemTimeZone];
+    
+    NSInteger sourceGMTOffset = [sourceTimeZone secondsFromGMTForDate:sourceDate];
+    NSInteger destinationGMTOffset = [destinationTimeZone secondsFromGMTForDate:sourceDate];
+    NSTimeInterval interval = destinationGMTOffset - sourceGMTOffset;
+    
+    NSDate* destinationDate = [[NSDate alloc] initWithTimeInterval:interval sinceDate:sourceDate];
+    
+    NSLog([destinationDate description]);
 }
 @end
