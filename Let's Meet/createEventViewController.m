@@ -17,6 +17,7 @@
 
 @synthesize pin;
 @synthesize contacts;
+@synthesize contactsNames;
 @synthesize contactsTable;
 @synthesize datePicker;
 
@@ -47,13 +48,16 @@
         [self coordinatesField].text = text;
     }
     CGAffineTransform rotate = CGAffineTransformMakeRotation(0/*-1.57*/);
-    rotate = CGAffineTransformScale(rotate, /*.46, 2.25*/ 1, .85);
+    rotate = CGAffineTransformScale(rotate, /*.46, 2.25*/ 0.85, .85);
     CGAffineTransform t0 = CGAffineTransformMakeTranslation(/*3, 22.5*/0,0);
     datePicker.transform = CGAffineTransformConcat(rotate,t0);
     [self.view addSubview:datePicker];
 
     if (contacts) {
-        
+        for (id key in self.contacts) {
+            if (!contactsNames) contactsNames = [[NSMutableArray alloc] init];
+            [contactsNames addObject:key];
+        }
     }
         // Do any additional setup after loading the view.
 }
@@ -79,18 +83,8 @@
         
     }
     
-    for (id key in self.contacts) {
-        NSLog(@"key: %@, value: %@", key, [self.contacts objectForKey:key]);
-        cell.textLabel.text  = key;
-        cell.detailTextLabel.text  = [self.contacts objectForKey:key];
-    }
-    
-    //NSString *nameString = [self.contacts objectForKey:@"name"];
-    //NSString *phoneString = [self.contacts objectForKey:@"phone"];
-    //cell.textLabel.text  = nameString;
-   // cell.detailTextLabel.text  = phoneString;
-    
-    
+    cell.textLabel.text = [self.contactsNames objectAtIndex:[indexPath row]];
+    cell.detailTextLabel.text  = [self.contacts objectForKey:[self.contactsNames objectAtIndex:[indexPath row]]];
     return cell;
     
 }

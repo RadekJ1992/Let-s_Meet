@@ -73,6 +73,8 @@
 
     NSString *firstName = (__bridge NSString *)(ABRecordCopyValue(person, kABPersonFirstNameProperty));
     NSString *lastName = (__bridge NSString *)(ABRecordCopyValue(person, kABPersonLastNameProperty));
+    if (!firstName) firstName = @" ";
+    if (!lastName) lastName = @" ";
     NSString *name=[NSString stringWithFormat:@"%@ %@",firstName,lastName];
     if (property == kABPersonPhoneProperty) {
         ABMultiValueRef mul;
