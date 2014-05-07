@@ -101,6 +101,11 @@
     
     NSDate* destinationDate = [[NSDate alloc] initWithTimeInterval:interval sinceDate:sourceDate];
     
-    NSLog([destinationDate description]);
+    NSLog(@"%@",[destinationDate description]);
+}
+
+- (IBAction)doneButtonClicked:(id)sender {
+    
+    
 }
 @end

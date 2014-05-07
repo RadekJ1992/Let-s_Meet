@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "MapPin.h"
+#import "DBManager.h"
 
 @interface createEventViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *coordinatesField;
@@ -16,7 +17,9 @@
 @property (strong, nonatomic) NSMutableDictionary *contacts;
 @property (strong, nonatomic) NSMutableArray *contactsNames;
 @property (weak, nonatomic) IBOutlet UITableView *contactsTable;
+@property (weak, nonatomic) IBOutlet UITextField *eventNameField;
 @property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
 - (IBAction)dateChanged:(id)sender;
+- (IBAction)doneButtonClicked:(id)sender;
 
 @end

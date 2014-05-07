@@ -30,6 +30,8 @@
 		45208F99190D2D0D003F1ADD /* contactsSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45208F98190D2D0D003F1ADD /* contactsSelectViewController.m */; };
 		45208F9F190D2D96003F1ADD /* eventsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45208F9E190D2D96003F1ADD /* eventsListViewController.m */; };
 		45208FA2190D3196003F1ADD /* MapPin.m in Sources */ = {isa = PBXBuildFile; fileRef = 45208FA1190D3196003F1ADD /* MapPin.m */; };
+		45682FDC19198BCD002C4861 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 45682FDB19198BCD002C4861 /* libsqlite3.dylib */; };
+		45682FE219198BFE002C4861 /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 45682FE119198BFE002C4861 /* DBManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +79,9 @@
 		45208F9E190D2D96003F1ADD /* eventsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = eventsListViewController.m; path = ../eventsListViewController.m; sourceTree = "<group>"; };
 		45208FA0190D3196003F1ADD /* MapPin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapPin.h; sourceTree = "<group>"; };
 		45208FA1190D3196003F1ADD /* MapPin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapPin.m; sourceTree = "<group>"; };
+		45682FDB19198BCD002C4861 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		45682FE019198BFE002C4861 /* DBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
+		45682FE119198BFE002C4861 /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45682FDC19198BCD002C4861 /* libsqlite3.dylib in Frameworks */,
 				45208F8A190D2977003F1ADD /* AddressBookUI.framework in Frameworks */,
 				45208F88190D2972003F1ADD /* AddressBook.framework in Frameworks */,
 				45208F53190D1F54003F1ADD /* CoreGraphics.framework in Frameworks */,
@@ -128,6 +134,7 @@
 		45208F4F190D1F54003F1ADD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				45682FDB19198BCD002C4861 /* libsqlite3.dylib */,
 				45208F89190D2977003F1ADD /* AddressBookUI.framework */,
 				45208F87190D2972003F1ADD /* AddressBook.framework */,
 				45208F85190D1F5C003F1ADD /* MapKit.framework */,
@@ -161,6 +168,8 @@
 				45208F57190D1F54003F1ADD /* Supporting Files */,
 				45208FA0190D3196003F1ADD /* MapPin.h */,
 				45208FA1190D3196003F1ADD /* MapPin.m */,
+				45682FE019198BFE002C4861 /* DBManager.h */,
+				45682FE119198BFE002C4861 /* DBManager.m */,
 			);
 			path = "Let's Meet";
 			sourceTree = "<group>";
@@ -311,6 +320,7 @@
 				45208F9F190D2D96003F1ADD /* eventsListViewController.m in Sources */,
 				45208F8D190D2BA7003F1ADD /* settingsViewController.m in Sources */,
 				45208F99190D2D0D003F1ADD /* contactsSelectViewController.m in Sources */,
+				45682FE219198BFE002C4861 /* DBManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
