@@ -41,32 +41,21 @@
     if (!event) {
         event = [[Event alloc] init];
     }
-//    if (!event.contacts) {
-//        event.contacts = [[NSMutableDictionary alloc]init];
-//        
-//    }
     ABPeoplePickerNavigationController * peoplePicker = [[ABPeoplePickerNavigationController alloc] init];
     peoplePicker.peoplePickerDelegate = self;
-    // Display only a person's phone and address
     NSArray * displayedItems = [NSArray arrayWithObjects:[NSNumber numberWithInt:kABPersonAddressProperty],
                                 [NSNumber numberWithInt:kABPersonPhoneProperty],
                                 nil];
     
     peoplePicker.displayedProperties = displayedItems;
-    /*
-    peoplePicker.topViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addPerson:)];
-    */
     [self.view addSubview:peoplePicker.view];
     [self addChildViewController:peoplePicker];
     [peoplePicker didMoveToParentViewController:self];
-    //[self presentModalViewController:peoplePicker animated:YES];
-    // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 -(BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person {
@@ -85,10 +74,9 @@
         mul=(__bridge ABMultiValueRef)((__bridge NSString *) ABRecordCopyValue(person, kABPersonPhoneProperty));
         NSString *phone=(__bridge NSString *) ABMultiValueCopyValueAtIndex(mul,0);
         [event.contacts setObject:phone forKey:name];
+        [[DBManager getSharedInstance] addGuestWithName:name andPhone:phone];
     }
     [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
-    //UIViewController *myController = [self.storyboard instantiateViewControllerWithIdentifier:@"createEventViewController"];
-    //[self.navigationController pushViewController: myController animated:YES];
     [self performSegueWithIdentifier: @"contact" sender: nil];
     return NO;
 }

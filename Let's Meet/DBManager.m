@@ -44,7 +44,7 @@ static sqlite3_stmt *statement = nil;
                 != SQLITE_OK)
             {
                 isSuccess = NO;
-                NSLog(@"Failed to execute pragma query");
+                NSLog(@"Failed to execute pragma query, %s", errMsg0);
             }
             
             char *errMsg1;
@@ -54,7 +54,7 @@ static sqlite3_stmt *statement = nil;
                 != SQLITE_OK)
             {
                 isSuccess = NO;
-                NSLog(@"Failed to create events table");
+                NSLog(@"Failed to create events table, %s", errMsg1);
             }
             char *errMsg2;
             const char *sql_stmt_guests =
@@ -63,16 +63,16 @@ static sqlite3_stmt *statement = nil;
                 != SQLITE_OK)
             {
                 isSuccess = NO;
-                NSLog(@"Failed to create guests table");
+                NSLog(@"Failed to create guests table, %s", errMsg2);
             }
             char *errMsg3;
             const char *sql_stmt_event_guest =
-            "create table if not exists eventGuestTable (id integer primary key autoincrement, eventName text, guestName text, foreign key (eventName) references eventsTable(eventName), foreign key (guestName) references guestsTable(guestName)";
+            "create table if not exists eventGuestTable (id integer primary key autoincrement, eventName text, guestName text, foreign key (eventName) references eventsTable(eventName), foreign key (guestName) references guestsTable(guestName))";
             if (sqlite3_exec(database, sql_stmt_event_guest, NULL, NULL, &errMsg3)
                 != SQLITE_OK)
             {
                 isSuccess = NO;
-                NSLog(@"Failed to create guest-event table");
+                NSLog(@"Failed to create guest-event table, %s", errMsg3);
             }
             sqlite3_close(database);
             return  isSuccess;

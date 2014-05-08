@@ -32,7 +32,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -58,7 +57,6 @@
     [theSearchBar resignFirstResponder];
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
     [geocoder geocodeAddressString:searchBar.text completionHandler:^(NSArray *placemarks, NSError *error) {
-        //Error checking
         
         CLPlacemark *placemark = [placemarks objectAtIndex:0];
         MKCoordinateRegion region;
@@ -95,11 +93,8 @@
     if (event.pin == nil) {
         event.pin = [[MapPin alloc] init];
     }
-    // Here we get the CGPoint for the touch and convert it to latitude and longitude coordinates to display on the map
     CGPoint point = [sender locationInView:self.mapView];
     CLLocationCoordinate2D locCoord = [self.mapView convertPoint:point toCoordinateFromView:self.mapView];
-    // Then all you have to do is create the annotation and add it to the map
-    //MapPin *dropPin = [[MapPin alloc] init];
     MKCoordinateRegion region = { { 0.0, 0.0 }, { 0.0, 0.0 } };
     region.center.latitude = locCoord.latitude;
     region.center.longitude = locCoord.longitude;

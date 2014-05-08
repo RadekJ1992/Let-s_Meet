@@ -12,6 +12,8 @@
 
 @interface createEventViewController ()
 
+-(void)addEventToDatabase;
+
 @end
 
 @implementation createEventViewController
@@ -70,22 +72,12 @@
             if (!contactsNames) contactsNames = [[NSMutableArray alloc] init];
             [contactsNames addObject:key];
         }
-        //[self coordinatesField].text = text;
     }
     CGAffineTransform rotate = CGAffineTransformMakeRotation(0/*-1.57*/);
     rotate = CGAffineTransformScale(rotate, /*.46, 2.25*/ 0.85, .85);
     CGAffineTransform t0 = CGAffineTransformMakeTranslation(/*3, 22.5*/0,0);
     datePicker.transform = CGAffineTransformConcat(rotate,t0);
     [self.view addSubview:datePicker];
-
-//    if (event.contacts) {
-//        contacts = event.contacts;
-//        for (id key in self.contacts) {
-//            if (!contactsNames) contactsNames = [[NSMutableArray alloc] init];
-//            [contactsNames addObject:key];
-//        }
-//    }
-        // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning
@@ -137,8 +129,24 @@
     return YES;
 }
 
+-(void)addEventToDatabase {
+    BOOL success = NO;
+    NSString *alertString = @"Data Insertion failed";
+    if (event.eventDate && event.eventName && event.pin) {
+        success = [[DBManager getSharedInstance]addEvent:event.eventName onDate:event.eventDate inLocation:event.pin withGuests:event.contacts];
+    }
+    else{
+        alertString = @"Enter all fields";
+    }
+    if (success == NO) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:
+        alertString message:nil
+        delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+    }
+}
+
 - (IBAction)doneButtonClicked:(id)sender {
-    
-    
+    [self addEventToDatabase];
 }
 @end
