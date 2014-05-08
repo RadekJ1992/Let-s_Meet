@@ -45,7 +45,26 @@
     self.contactsTable.dataSource = self;
     if (pin) {
         NSString *text = [NSString stringWithFormat:@"%f,%f", pin.coordinate.latitude, pin.coordinate.longitude];
-        [self coordinatesField].text = text;
+        CLGeocoder* geocoder = [[CLGeocoder alloc] init];
+        [geocoder reverseGeocodeLocation: [[CLLocation alloc] initWithLatitude:pin.coordinate.latitude longitude:pin.coordinate.longitude] completionHandler:
+         ^(NSArray* placemarks, NSError* error){
+             if ([placemarks count] > 0)
+             {
+                 //annotation.placemark = [placemarks objectAtIndex:0];
+                 
+                 // Add a More Info button to the annotation's view.
+                 //MKPinAnnotationView* view = (MKPinAnnotationView*)[map viewForAnnotation:annotation];
+                 //if (view && (view.rightCalloutAccessoryView == nil))
+                 //{
+                    // view.canShowCallout = YES;
+                   //  view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+                 //}
+                 [self coordinatesField].text = [placemarks[0] description];
+             } else [self coordinatesField].text = text;
+
+         }];
+        
+        //[self coordinatesField].text = text;
     }
     CGAffineTransform rotate = CGAffineTransformMakeRotation(0/*-1.57*/);
     rotate = CGAffineTransformScale(rotate, /*.46, 2.25*/ 0.85, .85);

@@ -63,7 +63,7 @@
         MKCoordinateRegion region;
         region.center.latitude = placemark.region.center.latitude;
         region.center.longitude = placemark.region.center.longitude;
-        MKCoordinateSpan span;
+        MKCoordinateSpan span;        
         double radius = placemark.region.radius / 1000; // convert to km
         
         NSLog(@"[searchBarSearchButtonClicked] Radius is %f", radius);
