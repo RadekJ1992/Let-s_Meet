@@ -15,12 +15,13 @@
 
 @implementation contactsSelectViewController
 @synthesize contacts;
+@synthesize event;
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"contact"]) {
-        if (contacts) {
+        if (event) {
             createEventViewController *cEVC = [segue destinationViewController];
-            cEVC.contacts = contacts;
+            cEVC.event = event;
         }
     }
 }
@@ -37,10 +38,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    if (!contacts) {
-        contacts = [[NSMutableDictionary alloc]init];
-        
+    if (!event) {
+        event = [[Event alloc] init];
     }
+//    if (!event.contacts) {
+//        event.contacts = [[NSMutableDictionary alloc]init];
+//        
+//    }
     ABPeoplePickerNavigationController * peoplePicker = [[ABPeoplePickerNavigationController alloc] init];
     peoplePicker.peoplePickerDelegate = self;
     // Display only a person's phone and address
@@ -80,7 +84,7 @@
         ABMultiValueRef mul;
         mul=(__bridge ABMultiValueRef)((__bridge NSString *) ABRecordCopyValue(person, kABPersonPhoneProperty));
         NSString *phone=(__bridge NSString *) ABMultiValueCopyValueAtIndex(mul,0);
-        [contacts setObject:phone forKey:name];
+        [event.contacts setObject:phone forKey:name];
     }
     [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
     //UIViewController *myController = [self.storyboard instantiateViewControllerWithIdentifier:@"createEventViewController"];

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		450D1BBA191B85260055137F /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 450D1BB9191B85260055137F /* Event.m */; };
 		45208F51190D1F54003F1ADD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45208F50190D1F54003F1ADD /* Foundation.framework */; };
 		45208F53190D1F54003F1ADD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45208F52190D1F54003F1ADD /* CoreGraphics.framework */; };
 		45208F55190D1F54003F1ADD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45208F54190D1F54003F1ADD /* UIKit.framework */; };
@@ -45,6 +46,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		450D1BB8191B85260055137F /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
+		450D1BB9191B85260055137F /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
 		45208F4D190D1F54003F1ADD /* Let's Meet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Let's Meet.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		45208F50190D1F54003F1ADD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		45208F52190D1F54003F1ADD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -170,6 +173,8 @@
 				45208FA1190D3196003F1ADD /* MapPin.m */,
 				45682FE019198BFE002C4861 /* DBManager.h */,
 				45682FE119198BFE002C4861 /* DBManager.m */,
+				450D1BB8191B85260055137F /* Event.h */,
+				450D1BB9191B85260055137F /* Event.m */,
 			);
 			path = "Let's Meet";
 			sourceTree = "<group>";
@@ -311,6 +316,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				450D1BBA191B85260055137F /* Event.m in Sources */,
 				45208FA2190D3196003F1ADD /* MapPin.m in Sources */,
 				45208F67190D1F54003F1ADD /* meetAppViewController.m in Sources */,
 				45208F93190D2C4B003F1ADD /* locationSelectViewController.m in Sources */,

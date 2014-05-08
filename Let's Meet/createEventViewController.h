@@ -8,12 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "MapPin.h"
+#import "Event.h"
 #import "DBManager.h"
 
 @interface createEventViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *coordinatesField;
 
-@property (weak, nonatomic) MapPin *pin;
+@property (strong, nonatomic) Event *event;
 @property (strong, nonatomic) NSMutableDictionary *contacts;
 @property (strong, nonatomic) NSMutableArray *contactsNames;
 @property (weak, nonatomic) IBOutlet UITableView *contactsTable;

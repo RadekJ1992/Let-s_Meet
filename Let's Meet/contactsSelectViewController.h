@@ -8,9 +8,11 @@
 
 #import <AddressBookUI/AddressBookUI.h>
 #import <AddressBook/AddressBook.h>
+#import "Event.h"
 
 @interface contactsSelectViewController : UIViewController <ABPeoplePickerNavigationControllerDelegate> {
-    NSMutableDictionary *contact;
+    //NSMutableDictionary *contact;
 }
+@property (strong, nonatomic) Event* event;
 @property (strong, nonatomic) NSMutableDictionary *contacts;
 @end

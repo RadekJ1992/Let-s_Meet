@@ -8,6 +8,7 @@
 
 #import "createEventViewController.h"
 #import "contactsSelectViewController.h"
+#import "locationSelectViewController.h"
 
 @interface createEventViewController ()
 
@@ -15,7 +16,7 @@
 
 @implementation createEventViewController
 
-@synthesize pin;
+@synthesize event;
 @synthesize contacts;
 @synthesize contactsNames;
 @synthesize contactsTable;
@@ -24,9 +25,15 @@
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"contacts"]) {
-        if (contacts) {
-            contactsSelectViewController *cEVC = [segue destinationViewController];
-            cEVC.contacts = contacts;
+        if (event) {
+            contactsSelectViewController *cSVC = [segue destinationViewController];
+            cSVC.event = event;
+        }
+    }
+    if ([segue.identifier isEqualToString:@"chooseLocationSegue"]) {
+        if (event) {
+            locationSelectViewController *lSVC = [segue destinationViewController];
+            lSVC.event = event;
         }
     }
 }
@@ -45,27 +52,24 @@
     [super viewDidLoad];
     [eventNameField setDelegate:self];
     self.contactsTable.dataSource = self;
-    if (pin) {
-        NSString *text = [NSString stringWithFormat:@"%f,%f", pin.coordinate.latitude, pin.coordinate.longitude];
+    if (event) {
+        [datePicker setDate:event.eventDate];
+        eventNameField.text = event.eventName;
+        NSString *text = [NSString stringWithFormat:@"%f,%f", event.pin.coordinate.latitude, event.pin.coordinate.longitude];
         CLGeocoder* geocoder = [[CLGeocoder alloc] init];
-        [geocoder reverseGeocodeLocation: [[CLLocation alloc] initWithLatitude:pin.coordinate.latitude longitude:pin.coordinate.longitude] completionHandler:
+        [geocoder reverseGeocodeLocation: [[CLLocation alloc] initWithLatitude:event.pin.coordinate.latitude longitude:event.pin.coordinate.longitude] completionHandler:
          ^(NSArray* placemarks, NSError* error){
              if ([placemarks count] > 0)
              {
-                 //annotation.placemark = [placemarks objectAtIndex:0];
-                 
-                 // Add a More Info button to the annotation's view.
-                 //MKPinAnnotationView* view = (MKPinAnnotationView*)[map viewForAnnotation:annotation];
-                 //if (view && (view.rightCalloutAccessoryView == nil))
-                 //{
-                    // view.canShowCallout = YES;
-                   //  view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-                 //}
                  [self coordinatesField].text = [placemarks[0] description];
              } else [self coordinatesField].text = text;
-
+             
          }];
         
+        for (id key in event.contacts) {
+            if (!contactsNames) contactsNames = [[NSMutableArray alloc] init];
+            [contactsNames addObject:key];
+        }
         //[self coordinatesField].text = text;
     }
     CGAffineTransform rotate = CGAffineTransformMakeRotation(0/*-1.57*/);
@@ -74,12 +78,13 @@
     datePicker.transform = CGAffineTransformConcat(rotate,t0);
     [self.view addSubview:datePicker];
 
-    if (contacts) {
-        for (id key in self.contacts) {
-            if (!contactsNames) contactsNames = [[NSMutableArray alloc] init];
-            [contactsNames addObject:key];
-        }
-    }
+//    if (event.contacts) {
+//        contacts = event.contacts;
+//        for (id key in self.contacts) {
+//            if (!contactsNames) contactsNames = [[NSMutableArray alloc] init];
+//            [contactsNames addObject:key];
+//        }
+//    }
         // Do any additional setup after loading the view.
 }
 
@@ -90,7 +95,7 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [[self.contacts allKeys] count];
+    return [[self.event.contacts allKeys] count];
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -105,7 +110,7 @@
     }
     
     cell.textLabel.text = [self.contactsNames objectAtIndex:[indexPath row]];
-    cell.detailTextLabel.text  = [self.contacts objectForKey:[self.contactsNames objectAtIndex:[indexPath row]]];
+    cell.detailTextLabel.text  = [self.event.contacts objectForKey:[self.contactsNames objectAtIndex:[indexPath row]]];
     return cell;
     
 }
@@ -121,12 +126,13 @@
     NSTimeInterval interval = destinationGMTOffset - sourceGMTOffset;
     
     NSDate* destinationDate = [[NSDate alloc] initWithTimeInterval:interval sinceDate:sourceDate];
-    
+    event.eventDate = destinationDate;
     NSLog(@"%@",[destinationDate description]);
 }
 
 -(BOOL) textFieldShouldReturn:(UITextField *)textField{
-    
+    if (!event) event = [[Event alloc] init];
+    event.eventName = textField.text;
     [textField resignFirstResponder];
     return YES;
 }

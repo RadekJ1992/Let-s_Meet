@@ -17,12 +17,13 @@
 
 @synthesize mapView;
 @synthesize searchBar;
+@synthesize event;
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"coordinates"]) {
-        if (pin) {
+        if (event) {
             createEventViewController *cEVC = [segue destinationViewController];
-            cEVC.pin = pin;
+            cEVC.event = event;
         }
     }
 }
@@ -42,7 +43,7 @@
     searchBar.delegate = self;
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGesture:)];
     [self.mapView addGestureRecognizer:longPressGesture];
-    
+    if (!event) event = [[Event alloc] init];
     MKCoordinateRegion region = { { 0.0, 0.0 }, { 0.0, 0.0 } };
     region.center.latitude = 52.2296756;
     region.center.longitude = 21.0122287;
@@ -90,10 +91,9 @@
 }
 
 -(void)handleLongPressGesture:(UIGestureRecognizer*)sender {
-    
-    [self.mapView removeAnnotation:pin];
-    if (pin == nil) {
-        pin = [[MapPin alloc] init];
+    [self.mapView removeAnnotation:event.pin];
+    if (event.pin == nil) {
+        event.pin = [[MapPin alloc] init];
     }
     // Here we get the CGPoint for the touch and convert it to latitude and longitude coordinates to display on the map
     CGPoint point = [sender locationInView:self.mapView];
@@ -105,8 +105,8 @@
     region.center.longitude = locCoord.longitude;
     region.span.longitudeDelta = 0.01f;
     region.span.latitudeDelta = 0.01f;
-    pin.coordinate = region.center;
-    [self.mapView addAnnotation:pin];
+    event.pin.coordinate = region.center;
+    [self.mapView addAnnotation:event.pin];
 }
 
 @end
