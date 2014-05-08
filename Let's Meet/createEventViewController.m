@@ -20,6 +20,7 @@
 @synthesize contactsNames;
 @synthesize contactsTable;
 @synthesize datePicker;
+@synthesize eventNameField;
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"contacts"]) {
@@ -42,6 +43,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [eventNameField setDelegate:self];
     self.contactsTable.dataSource = self;
     if (pin) {
         NSString *text = [NSString stringWithFormat:@"%f,%f", pin.coordinate.latitude, pin.coordinate.longitude];
@@ -121,6 +123,12 @@
     NSDate* destinationDate = [[NSDate alloc] initWithTimeInterval:interval sinceDate:sourceDate];
     
     NSLog(@"%@",[destinationDate description]);
+}
+
+-(BOOL) textFieldShouldReturn:(UITextField *)textField{
+    
+    [textField resignFirstResponder];
+    return YES;
 }
 
 - (IBAction)doneButtonClicked:(id)sender {

@@ -10,7 +10,7 @@
 #import "MapPin.h"
 #import "DBManager.h"
 
-@interface createEventViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface createEventViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *coordinatesField;
 
 @property (weak, nonatomic) MapPin *pin;
