@@ -119,12 +119,13 @@
     
     NSDate* destinationDate = [[NSDate alloc] initWithTimeInterval:interval sinceDate:sourceDate];
     event.eventDate = destinationDate;
-    NSLog(@"%@",[destinationDate description]);
 }
 
 -(BOOL) textFieldShouldReturn:(UITextField *)textField{
     if (!event) event = [[Event alloc] init];
+    NSString* oldName = event.eventName;
     event.eventName = textField.text;
+    if ([oldName isEqualToString:@""]) [[DBManager getSharedInstance ] deleteEventForEventName:oldName];
     [textField resignFirstResponder];
     return YES;
 }
@@ -133,6 +134,8 @@
     BOOL success = NO;
     NSString *alertString = @"Data Insertion failed";
     if (event.eventDate && event.eventName && event.pin) {
+        //[[DBManager getSharedInstance] forceCloseDatabase];
+        [[DBManager getSharedInstance] deleteEventForEventName:event.eventName];
         success = [[DBManager getSharedInstance]addEvent:event.eventName onDate:event.eventDate inLocation:event.pin withGuests:event.contacts];
     }
     else{
@@ -148,5 +151,14 @@
 
 - (IBAction)doneButtonClicked:(id)sender {
     [self addEventToDatabase];
+}
+
+-(id)initWithEventName:(NSString *)eventName {
+    self = [super init];
+    if (self) {
+        event = [[DBManager getSharedInstance] getEventForEventName:eventName];
+    }
+    return self;
+
 }
 @end

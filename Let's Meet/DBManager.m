@@ -67,7 +67,7 @@ static sqlite3_stmt *statement = nil;
             }
             char *errMsg3;
             const char *sql_stmt_event_guest =
-            "create table if not exists eventGuestTable (id integer primary key autoincrement, eventName text, guestName text, foreign key (eventName) references eventsTable(eventName), foreign key (guestName) references guestsTable(guestName))";
+            "create table if not exists eventGuestTable (id integer primary key autoincrement, eventName text, guestName text, foreign key (eventName) references eventsTable(eventName) on update cascade , foreign key (guestName) references guestsTable(guestName) on update cascade)";
             if (sqlite3_exec(database, sql_stmt_event_guest, NULL, NULL, &errMsg3)
                 != SQLITE_OK)
             {
@@ -89,10 +89,11 @@ static sqlite3_stmt *statement = nil;
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *insertSQL = [NSString stringWithFormat:@"insert into guestsTable values (\"%@\",\"%@\",0,0)", guestName, guestPhone];
+        NSString *insertSQL = [NSString stringWithFormat:@"insert or replace into guestsTable values (\"%@\",\"%@\",0,0)", guestName, guestPhone];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
-        if (sqlite3_step(statement) == SQLITE_DONE)
+        int i = sqlite3_step(statement);
+        if (i== SQLITE_DONE)
         {
             return YES;
         }
@@ -100,6 +101,9 @@ static sqlite3_stmt *statement = nil;
             return NO;
         }
         sqlite3_reset(statement);
+        
+        sqlite3_close(database);
+
     }
     return NO;
 }
@@ -112,13 +116,16 @@ static sqlite3_stmt *statement = nil;
         NSString *insertSQL = [NSString stringWithFormat:@"insert into eventsTable values (\"%@\",\"%f\",\"%f\",\"%@\")", eventName, pin.coordinate.latitude, pin.coordinate.longitude, [date description]];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
-        if (sqlite3_step(statement) == SQLITE_DONE)
+        int i = sqlite3_step(statement);
+        if (i == SQLITE_DONE)
         {
+            sqlite3_reset(statement);
             for (NSString *key in contacts.allKeys) {
                 const char *dbpath = [databasePath UTF8String];
-                if (sqlite3_open(dbpath, &database) == SQLITE_OK)
+                int i = sqlite3_open(dbpath, &database);
+                if ( i == SQLITE_OK)
                 {
-                    NSString *insertEventGuestSQL = [NSString stringWithFormat:@"insert into eventGuestTable (eventName, guestName) values (\"%@\", \"%@\")",eventName, key];
+                    NSString *insertEventGuestSQL = [NSString stringWithFormat:@"insert or replace into eventGuestTable (eventName, guestName) values (\"%@\", \"%@\")",eventName, key];
                     const char *insert_stmt = [insertEventGuestSQL UTF8String];
                     sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
                     if (sqlite3_step(statement) != SQLITE_DONE)
@@ -129,6 +136,7 @@ static sqlite3_stmt *statement = nil;
                     sqlite3_reset(statement);
                 }
             }
+            sqlite3_reset(statement);
             return YES;
         }
         else {
@@ -136,6 +144,9 @@ static sqlite3_stmt *statement = nil;
             return NO;
         }
         sqlite3_reset(statement);
+    
+        sqlite3_close(database);
+
     }
     return NO;
 }
@@ -158,6 +169,9 @@ static sqlite3_stmt *statement = nil;
             return resultArray;
             sqlite3_reset(statement);
         }
+        
+        sqlite3_close(database);
+
     }
     return nil;
 }
@@ -177,6 +191,7 @@ static sqlite3_stmt *statement = nil;
                                   (const char *) sqlite3_column_text(statement, 0)];
                 [guestNameArray addObject:name];
             }
+            //sqlite3_finalize(statement);
             sqlite3_reset(statement);
             
             NSMutableDictionary* resultDictionary = [[NSMutableDictionary alloc] init];
@@ -192,11 +207,17 @@ static sqlite3_stmt *statement = nil;
                                           (const char *) sqlite3_column_text(statement, 0)];
                         [resultDictionary setObject:phone forKey:name];
                     }
-                    return resultDictionary;
+                    //sqlite3_finalize(statement);
                     sqlite3_reset(statement);
                 }
             }
+            sqlite3_close(database);
+            return resultDictionary;
         }
+        
+        
+        sqlite3_close(database);
+
     }
     return nil;
 }
@@ -216,14 +237,20 @@ static sqlite3_stmt *statement = nil;
                 CLLocationCoordinate2D coord = CLLocationCoordinate2DMake([lat doubleValue], [lng doubleValue]);
                 MapPin* pin = [[MapPin alloc] init];
                 pin.coordinate = coord;
+                sqlite3_reset(statement);
+                sqlite3_close(database);
                 return pin;
             }
             else{
                 NSLog(@"Event not found");
                 return nil;
             }
+            //sqlite3_finalize(statement);
             sqlite3_reset(statement);
         }
+    
+        sqlite3_close(database);
+    
     }
     return nil;
 }
@@ -242,14 +269,20 @@ static sqlite3_stmt *statement = nil;
                 NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
                 dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss ZZZ";
                 NSDate* date = [dateFormatter dateFromString:dateString];
+                sqlite3_reset(statement);
+                sqlite3_close(database);
                 return date;
             }
             else{
                 NSLog(@"Event not found");
                 return nil;
             }
+            //sqlite3_finalize(statement);
             sqlite3_reset(statement);
         }
+    
+        sqlite3_close(database);
+
     }
     return nil;
 }
@@ -261,15 +294,26 @@ static sqlite3_stmt *statement = nil;
         char *errMsg;
         NSString *querySQL = [NSString stringWithFormat:@"delete from eventsTable where eventName=\"%@\"",eventName];
         const char *sql_stmt = [querySQL UTF8String];
-        if (sqlite3_exec(database, sql_stmt, NULL, NULL, &errMsg)
-            != SQLITE_OK)
+        if (sqlite3_exec(database, sql_stmt, NULL, NULL, &errMsg)!= SQLITE_OK)
         {
+            NSLog(@"Failed to delete event, %s", errMsg);
             return NO;
-            NSLog(@"Failed to delete event");
         }
         else return YES;
+    
+        sqlite3_close(database);
+
     }
     return NO;
+}
+
+-(Event*) getEventForEventName:(NSString *)eventName {
+    Event* result = [[Event alloc] init];
+    result.eventName = eventName;
+    result.pin = [self getEventLocationForEventName:eventName];
+    result.eventDate = [self getEventDateForEventName:eventName];
+    result.contacts = [self getEventGuestsForEventName:eventName];
+    return result;
 }
 
 -(BOOL) deleteGuestForGuestName:(NSString*) guestName {
@@ -286,6 +330,9 @@ static sqlite3_stmt *statement = nil;
             NSLog(@"Failed to delete guest");
         }
         else return YES;
+    
+        sqlite3_close(database);
+
     }
     return NO;
 }
@@ -304,8 +351,15 @@ static sqlite3_stmt *statement = nil;
             NSLog(@"Failed to delete guest and event connection");
         }
         else return YES;
+    
+        sqlite3_close(database);
+
     }
     return NO;
 }
+
+-(void) forceCloseDatabase {
+    sqlite3_close(database);
+};
 
 @end

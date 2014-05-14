@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <sqlite3.h>
 #import "MapPin.h"
+#import "Event.h"
 
 @interface DBManager : NSObject
 {
@@ -23,9 +24,12 @@
 -(NSMutableDictionary*) getEventGuestsForEventName:(NSString*) eventName;
 -(MapPin*)getEventLocationForEventName: (NSString*) eventName;
 -(NSDate*)getEventDateForEventName: (NSString*) eventName;
+-(Event*)getEventForEventName:(NSString*) eventName;
 
 -(BOOL) deleteEventForEventName:(NSString*) eventName;
 -(BOOL) deleteGuestForGuestName:(NSString*) guestName;
 -(BOOL) deleteConnectionForGuest:(NSString*) guestName andEventName:(NSString*) eventName;
+
+-(void) forceCloseDatabase;
 
 @end

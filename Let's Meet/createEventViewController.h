@@ -23,4 +23,6 @@
 - (IBAction)dateChanged:(id)sender;
 - (IBAction)doneButtonClicked:(id)sender;
 
+-(id) initWithEventName:(NSString*) eventName;
+
 @end
