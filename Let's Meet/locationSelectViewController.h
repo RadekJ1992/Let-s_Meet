@@ -18,6 +18,7 @@
 @property (nonatomic, retain) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (strong, nonatomic) Event* event;
+
 -(IBAction)setLocation:(id)sender;
 
 @end

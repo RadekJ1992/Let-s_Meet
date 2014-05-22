@@ -49,7 +49,7 @@ static sqlite3_stmt *statement = nil;
             
             char *errMsg1;
             const char *sql_stmt_events =
-            "create table if not exists eventsTable (eventName text primary key, eventLocationLatitude real, eventLocationLongitude real, eventDate text)";
+            "create table if not exists eventsTable (eventName text primary key, eventLocationLatitude real, eventLocationLongitude real, eventDate text, eventID integer)";
             if (sqlite3_exec(database, sql_stmt_events, NULL, NULL, &errMsg1)
                 != SQLITE_OK)
             {
@@ -113,7 +113,7 @@ static sqlite3_stmt *statement = nil;
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *insertSQL = [NSString stringWithFormat:@"insert into eventsTable values (\"%@\",\"%f\",\"%f\",\"%@\")", eventName, pin.coordinate.latitude, pin.coordinate.longitude, [date description]];
+        NSString *insertSQL = [NSString stringWithFormat:@"insert into eventsTable values (\"%@\",\"%f\",\"%f\",\"%@\", 1)", eventName, pin.coordinate.latitude, pin.coordinate.longitude, [date description]];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         int i = sqlite3_step(statement);

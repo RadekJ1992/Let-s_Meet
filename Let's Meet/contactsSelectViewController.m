@@ -64,15 +64,16 @@
 }
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier {
 
-    NSString *firstName = (__bridge NSString *)(ABRecordCopyValue(person, kABPersonFirstNameProperty));
-    NSString *lastName = (__bridge NSString *)(ABRecordCopyValue(person, kABPersonLastNameProperty));
+    NSString *firstName = (__bridge_transfer  NSString *)(ABRecordCopyValue(person, kABPersonFirstNameProperty));
+    NSString *lastName = (__bridge_transfer NSString *)(ABRecordCopyValue(person, kABPersonLastNameProperty));
     if (!firstName) firstName = @" ";
     if (!lastName) lastName = @" ";
     NSString *name=[NSString stringWithFormat:@"%@ %@",firstName,lastName];
+    
     if (property == kABPersonPhoneProperty) {
         ABMultiValueRef mul;
-        mul=(__bridge ABMultiValueRef)((__bridge NSString *) ABRecordCopyValue(person, kABPersonPhoneProperty));
-        NSString *phone=(__bridge NSString *) ABMultiValueCopyValueAtIndex(mul,0);
+        mul=(__bridge ABMultiValueRef)((__bridge_transfer NSString *) ABRecordCopyValue(person, kABPersonPhoneProperty));
+        NSString *phone=(__bridge_transfer NSString *) ABMultiValueCopyValueAtIndex(mul,0);
         [event.contacts setObject:phone forKey:name];
         [[DBManager getSharedInstance] addGuestWithName:name andPhone:phone];
     }

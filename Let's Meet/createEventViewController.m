@@ -91,9 +91,6 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    
-    
     static NSString *unifiedID = @"aCellID";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:unifiedID];
     if (!cell) {
@@ -151,6 +148,42 @@
 
 - (IBAction)doneButtonClicked:(id)sender {
     [self addEventToDatabase];
+}
+
+- (IBAction)sendButtonClicked:(id)sender {
+    MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
+	if([MFMessageComposeViewController canSendText])
+	{
+        NSMutableArray* contactsPhoneNumbers = [[NSMutableArray alloc] init];
+        for (id value in event.contacts.allValues) {
+            [contactsPhoneNumbers addObject:value];
+        }
+        
+		controller.body = [NSString stringWithFormat:@"meetApp://%@", event.eventID];
+        controller.recipients = contactsPhoneNumbers;
+		//controller.recipients = [NSArray arrayWithObjects:@"12345678", @"87654321", nil];
+		controller.messageComposeDelegate = self;
+		[self presentViewController:controller animated:YES completion:nil];
+	}
+}
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
+{
+	switch (result) {
+		case MessageComposeResultCancelled:
+			NSLog(@"Cancelled");
+			break;
+		case MessageComposeResultFailed: {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle: @"Nie wysłano SMS" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+            break;}
+		case MessageComposeResultSent:
+            
+			break;
+		default:
+			break;
+	}
+	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(id)initWithEventName:(NSString *)eventName {

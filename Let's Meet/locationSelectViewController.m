@@ -20,12 +20,19 @@
 @synthesize event;
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"coordinates"]) {
+    if ([segue.identifier isEqualToString:@"coordinates"] ||
+        [segue.identifier isEqualToString:@"coordinatesBack"]) {
         if (event) {
             createEventViewController *cEVC = [segue destinationViewController];
             cEVC.event = event;
         }
     }
+    /*if ([segue.identifier isEqualToString:@"coordinatesBack"]) {
+        if (event) {
+            createEventViewController *cEVC = [segue destinationViewController];
+            cEVC.event = event;
+        }
+    }*/
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -59,16 +66,24 @@
     [geocoder geocodeAddressString:searchBar.text completionHandler:^(NSArray *placemarks, NSError *error) {
         
         CLPlacemark *placemark = [placemarks objectAtIndex:0];
-        MKCoordinateRegion region;
-        region.center.latitude = placemark.region.center.latitude;
-        region.center.longitude = placemark.region.center.longitude;
-        MKCoordinateSpan span;        
-        double radius = placemark.region.radius / 1000; // convert to km
+        double radius = [(CLCircularRegion *)placemark.region radius] / 1000; // convert to km
+        
+        
+        MKCoordinateRegion region = MKCoordinateRegionMake(placemark.location.coordinate, MKCoordinateSpanMake(radius / 112.0, radius / 112.0));
+        
+        
+        //MKCoordinateRegion region; // MKCoordinateRegionMake !!
+        
+        //region.center = placemark.location.coordinate;
+      //  region.center.latitude = placemark.region.center.latitude;
+      //  region.center.longitude = placemark.region.center.longitude;
+        //MKCoordinateSpan span;
+        //double radius = placemark.region.radius / 1000; // convert to km
         
         NSLog(@"[searchBarSearchButtonClicked] Radius is %f", radius);
-        span.latitudeDelta = radius / 112.0;
+        //span.latitudeDelta = radius / 112.0;
         
-        region.span = span;
+        //region.span = span;
         
         [mapView setRegion:region animated:YES];
     }];

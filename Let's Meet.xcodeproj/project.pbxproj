@@ -33,6 +33,7 @@
 		45208FA2190D3196003F1ADD /* MapPin.m in Sources */ = {isa = PBXBuildFile; fileRef = 45208FA1190D3196003F1ADD /* MapPin.m */; };
 		45682FDC19198BCD002C4861 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 45682FDB19198BCD002C4861 /* libsqlite3.dylib */; };
 		45682FE219198BFE002C4861 /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 45682FE119198BFE002C4861 /* DBManager.m */; };
+		4580BCFC1923882300B25320 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4580BCFB1923882300B25320 /* MessageUI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +86,7 @@
 		45682FDB19198BCD002C4861 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		45682FE019198BFE002C4861 /* DBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
 		45682FE119198BFE002C4861 /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
+		4580BCFB1923882300B25320 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4580BCFC1923882300B25320 /* MessageUI.framework in Frameworks */,
 				45682FDC19198BCD002C4861 /* libsqlite3.dylib in Frameworks */,
 				45208F8A190D2977003F1ADD /* AddressBookUI.framework in Frameworks */,
 				45208F88190D2972003F1ADD /* AddressBook.framework in Frameworks */,
@@ -137,6 +140,7 @@
 		45208F4F190D1F54003F1ADD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4580BCFB1923882300B25320 /* MessageUI.framework */,
 				45682FDB19198BCD002C4861 /* libsqlite3.dylib */,
 				45208F89190D2977003F1ADD /* AddressBookUI.framework */,
 				45208F87190D2972003F1ADD /* AddressBook.framework */,
