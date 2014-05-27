@@ -55,7 +55,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-389" y="-10"/>
+            <point key="canvasLocation" x="-225" y="-177"/>
         </scene>
         <!--View Controller - settings-->
         <scene sceneID="KBE-u3-E8y">
@@ -84,7 +84,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hcA-xV-Csc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-344" y="752"/>
+            <point key="canvasLocation" x="-225" y="613"/>
         </scene>
         <!--Contacts Select View Controller - contactsSelect-->
         <scene sceneID="eAE-KR-Qnr">
@@ -368,8 +368,8 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="KB6-8v-nsN"/>
-        <segue reference="p2e-oe-B4W"/>
-        <segue reference="zSh-6f-5bW"/>
+        <segue reference="ses-UH-TT4"/>
+        <segue reference="shQ-WI-0o7"/>
+        <segue reference="kkF-3p-9G8"/>
     </inferredMetricsTieBreakers>
 </document>
