@@ -113,7 +113,13 @@ static sqlite3_stmt *statement = nil;
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *insertSQL = [NSString stringWithFormat:@"insert into eventsTable values (\"%@\",\"%f\",\"%f\",\"%@\", 1)", eventName, pin.coordinate.latitude, pin.coordinate.longitude, [date description]];
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        
+        [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        
+        NSString *dateString = [dateFormat stringFromDate:date];
+        
+        NSString *insertSQL = [NSString stringWithFormat:@"insert into eventsTable values (\"%@\",\"%f\",\"%f\",\"%@\", 1)", eventName, pin.coordinate.latitude, pin.coordinate.longitude, dateString];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         int i = sqlite3_step(statement);
@@ -267,7 +273,7 @@ static sqlite3_stmt *statement = nil;
             {
                 NSString *dateString = [[NSString alloc] initWithUTF8String: (const char *) sqlite3_column_text(statement, 0)];
                 NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
-                dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss ZZZ";
+                dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
                 NSDate* date = [dateFormatter dateFromString:dateString];
                 sqlite3_reset(statement);
                 sqlite3_close(database);

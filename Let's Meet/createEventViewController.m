@@ -10,7 +10,9 @@
 #import "contactsSelectViewController.h"
 #import "locationSelectViewController.h"
 
-@interface createEventViewController ()
+@interface createEventViewController () {
+    NSString* oldName;
+}
 
 -(void)addEventToDatabase;
 
@@ -55,6 +57,7 @@
     [eventNameField setDelegate:self];
     self.contactsTable.dataSource = self;
     if (event) {
+        oldName = event.eventName;
         [datePicker setDate:event.eventDate];
         eventNameField.text = event.eventName;
         NSString *text = [NSString stringWithFormat:@"%f,%f", event.pin.coordinate.latitude, event.pin.coordinate.longitude];
@@ -120,9 +123,9 @@
 
 -(BOOL) textFieldShouldReturn:(UITextField *)textField{
     if (!event) event = [[Event alloc] init];
-    NSString* oldName = event.eventName;
+    //NSString* oldName = event.eventName;
+    //if ([oldName isEqualToString:@""]) [[DBManager getSharedInstance ] deleteEventForEventName:oldName];
     event.eventName = textField.text;
-    if ([oldName isEqualToString:@""]) [[DBManager getSharedInstance ] deleteEventForEventName:oldName];
     [textField resignFirstResponder];
     return YES;
 }
@@ -132,7 +135,7 @@
     NSString *alertString = @"Data Insertion failed";
     if (event.eventDate && event.eventName && event.pin) {
         //[[DBManager getSharedInstance] forceCloseDatabase];
-        [[DBManager getSharedInstance] deleteEventForEventName:event.eventName];
+        [[DBManager getSharedInstance] deleteEventForEventName:oldName];
         success = [[DBManager getSharedInstance]addEvent:event.eventName onDate:event.eventDate inLocation:event.pin withGuests:event.contacts];
     }
     else{

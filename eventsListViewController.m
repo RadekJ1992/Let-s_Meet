@@ -43,6 +43,7 @@
     [super viewDidLoad];
     self.eventTable.dataSource = self;
     self.eventTable.delegate = self;
+    self.eventTable.allowsMultipleSelectionDuringEditing = NO;
     eventNames = [[DBManager getSharedInstance] getAllEventsNames];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -76,6 +77,23 @@
     event = [[DBManager getSharedInstance] getEventForEventName:eventName];
     [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
     [self performSegueWithIdentifier: @"selectedEvent" sender: nil];   
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return YES if you want the specified item to be editable.
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        UITableViewCell* cell = (UITableViewCell *)[[self eventTable] cellForRowAtIndexPath:indexPath];
+        NSString* eventName = cell.textLabel.text;
+        [[DBManager getSharedInstance] deleteEventForEventName:eventName];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            eventNames = [[DBManager getSharedInstance] getAllEventsNames];
+            [eventTable reloadData];
+        });
+    }
 }
 
 

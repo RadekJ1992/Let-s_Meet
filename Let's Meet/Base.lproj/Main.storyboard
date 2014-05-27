@@ -34,15 +34,6 @@
                                     <segue destination="YPz-zK-mS2" kind="modal" id="kkF-3p-9G8"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dso-x3-deJ">
-                                <rect key="frame" x="0.0" y="294" width="320" height="53"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Settings"/>
-                                <connections>
-                                    <segue destination="Kv7-NU-xY8" kind="modal" id="9hm-wz-8Y4"/>
-                                </connections>
-                            </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Let's Meet!" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qZL-aD-DlW">
                                 <rect key="frame" x="0.0" y="36" width="320" height="38"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -56,35 +47,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-225" y="-177"/>
-        </scene>
-        <!--View Controller - settings-->
-        <scene sceneID="KBE-u3-E8y">
-            <objects>
-                <viewController title="settings" id="Kv7-NU-xY8" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="ifY-FR-GcR"/>
-                        <viewControllerLayoutGuide type="bottom" id="9vK-Zq-ZP2"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="WZu-94-wtG" customClass="SettingsViewController">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="faA-UF-0j5">
-                                <rect key="frame" x="0.0" y="0.0" width="110" height="53"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Back"/>
-                                <connections>
-                                    <segue destination="vXZ-lx-hvc" kind="modal" id="shQ-WI-0o7"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="hcA-xV-Csc" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-225" y="613"/>
         </scene>
         <!--Contacts Select View Controller - contactsSelect-->
         <scene sceneID="eAE-KR-Qnr">
@@ -368,8 +330,8 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="ses-UH-TT4"/>
-        <segue reference="shQ-WI-0o7"/>
+        <segue reference="hpw-PA-cKe"/>
         <segue reference="kkF-3p-9G8"/>
+        <segue reference="ses-UH-TT4"/>
     </inferredMetricsTieBreakers>
 </document>
