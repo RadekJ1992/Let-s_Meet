@@ -10,6 +10,9 @@
 
 @implementation meetAppAppDelegate
 
+@synthesize locationManager;
+@synthesize bgTask;
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     NSUserDefaults * standardUserDefaults = [NSUserDefaults standardUserDefaults];
@@ -18,6 +21,13 @@
     if (!ip || !port) {
         [self registerDefaultsFromSettingsBundle];
     }
+    if (nil == locationManager)
+        locationManager = [[CLLocationManager alloc] init];
+    locationManager.distanceFilter = 500;
+    locationManager.delegate = self;
+    //[locationManager startUpdatingLocation];
+    [locationManager startMonitoringSignificantLocationChanges];
+
     // Override point for customization after application launch.
     return YES;
 }
@@ -30,7 +40,15 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
+    CLLocation* location = [locationManager location];
+    NSLog(@"2%f, %f" ,[location coordinate].latitude, [location coordinate].longitude);
+    /*if (nil == locationManager)
+        locationManager = [[CLLocationManager alloc] init];
+    
+    locationManager.delegate = self;
+    [locationManager startMonitoringSignificantLocationChanges];
+    */
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 
@@ -47,6 +65,38 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (void) locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+    if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
+        // Send the new location to your server in a background task
+        // bgTask is defined as an instance variable of type UIBackgroundTaskIdentifier
+        *bgTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler: ^{
+            [[UIApplication sharedApplication] endBackgroundTask:*bgTask];
+            CLLocation* location = [locationManager location];
+            NSLog(@"zbgTask%f, %f" ,[location coordinate].latitude, [location coordinate].longitude);
+
+        }];
+                      
+        // Make a SYNCHRONOUS call to send the new location to our server
+        CLLocation* location = [locationManager location];
+        NSLog(@"zsynchronouscall%f, %f" ,[location coordinate].latitude, [location coordinate].longitude);
+
+        // Close the task
+        if (*bgTask != UIBackgroundTaskInvalid) {
+            [[UIApplication sharedApplication] endBackgroundTask:*bgTask];
+             *bgTask = UIBackgroundTaskInvalid;
+             }
+        } else {
+            CLLocation* location = [locationManager location];
+            NSLog(@"zelse%f, %f" ,[location coordinate].latitude, [location coordinate].longitude);
+            NSLog(@"he z else");// Handle location updates in the normal way
+        }
+}
+
+-(void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    NSLog(@"zzwyklegoupdate'a%f, %f" ,[locations[0] coordinate].latitude, [locations[0] coordinate].longitude);
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {

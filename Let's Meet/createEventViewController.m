@@ -9,6 +9,7 @@
 #import "createEventViewController.h"
 #import "contactsSelectViewController.h"
 #import "locationSelectViewController.h"
+#import "eventslistViewController.h"
 
 @interface createEventViewController () {
     NSString* oldName;
@@ -137,14 +138,18 @@
         //[[DBManager getSharedInstance] forceCloseDatabase];
         [[DBManager getSharedInstance] deleteEventForEventName:oldName];
         success = [[DBManager getSharedInstance]addEvent:event.eventName onDate:event.eventDate inLocation:event.pin withGuests:event.contacts];
+        if (success == NO) {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:
+                                  alertString message:nil
+                                                          delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+        }
     }
     else{
         alertString = @"Enter all fields";
-    }
-    if (success == NO) {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:
-        alertString message:nil
-        delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                              alertString message:nil
+                                                      delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert show];
     }
 }

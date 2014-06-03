@@ -10,6 +10,7 @@
 #import <MapKit/MapKit.h>
 #import "MapPin.h"
 #import "Event.h"
+#import <CoreLocation/CoreLocation.h>
 
 @interface locationSelectViewController : UIViewController <UISearchBarDelegate> {
     MKMapView *mapView;

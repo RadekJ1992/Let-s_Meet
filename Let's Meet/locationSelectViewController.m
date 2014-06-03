@@ -55,7 +55,7 @@
     region.center.longitude = 21.0122287;
     region.span.longitudeDelta = 0.01f;
     region.span.latitudeDelta = 0.01f;
-    
+    //[[UIApplication sharedApplication] delegate]
     [mapView setRegion:region animated:YES];
     
 }

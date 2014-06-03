@@ -34,6 +34,7 @@
 		45682FDC19198BCD002C4861 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 45682FDB19198BCD002C4861 /* libsqlite3.dylib */; };
 		45682FE219198BFE002C4861 /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 45682FE119198BFE002C4861 /* DBManager.m */; };
 		4580BCFC1923882300B25320 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4580BCFB1923882300B25320 /* MessageUI.framework */; };
+		45B7AC23193B50900041E9ED /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B7AC22193B50900041E9ED /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +87,7 @@
 		45682FE019198BFE002C4861 /* DBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
 		45682FE119198BFE002C4861 /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
 		4580BCFB1923882300B25320 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		45B7AC22193B50900041E9ED /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45B7AC23193B50900041E9ED /* CoreLocation.framework in Frameworks */,
 				4580BCFC1923882300B25320 /* MessageUI.framework in Frameworks */,
 				45682FDC19198BCD002C4861 /* libsqlite3.dylib in Frameworks */,
 				45208F8A190D2977003F1ADD /* AddressBookUI.framework in Frameworks */,
@@ -140,6 +143,7 @@
 		45208F4F190D1F54003F1ADD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				45B7AC22193B50900041E9ED /* CoreLocation.framework */,
 				4580BCFB1923882300B25320 /* MessageUI.framework */,
 				45682FDB19198BCD002C4861 /* libsqlite3.dylib */,
 				45208F89190D2977003F1ADD /* AddressBookUI.framework */,
