@@ -11,5 +11,5 @@
 @implementation MapPin
 
 @synthesize coordinate;
-
+@synthesize title;
 @end

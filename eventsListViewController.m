@@ -1,4 +1,4 @@
-//
+ //
 //  eventsListViewController.m
 //  Let's Meet
 //
@@ -9,6 +9,7 @@
 #import "eventsListViewController.h"
 #import "meetAppAppDelegate.h"
 #import "createEventViewController.h"
+#import "showEventViewController.h"
 
 @interface eventsListViewController ()
 
@@ -21,10 +22,10 @@
 @synthesize event;
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"selectedEvent"]) {
+    if ([segue.identifier isEqualToString:@"eventToShow"]) {
         if (event) {
-            createEventViewController *cEVC = [segue destinationViewController];
-            cEVC.event = event;
+            showEventViewController *sEVC = [segue destinationViewController];
+            sEVC.event = event;
         }
     }
 }
@@ -76,7 +77,7 @@
     NSString* eventName = cell.textLabel.text;
     event = [[DBManager getSharedInstance] getEventForEventName:eventName];
     [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
-    [self performSegueWithIdentifier: @"selectedEvent" sender: nil];   
+    [self performSegueWithIdentifier: @"eventToShow" sender: nil];   
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -21,7 +21,8 @@
 -(BOOL)addEvent:(NSString*)eventName onDate:(NSDate*)date inLocation:(MapPin*)pin withGuests:(NSMutableDictionary*)contacts;
 -(BOOL)addGuestWithName:(NSString*) guestName andPhone:(NSString*) guestPhone;
 -(NSMutableArray*) getAllEventsNames;
--(NSMutableDictionary*) getEventGuestsForEventName:(NSString*) eventName;
+-(NSMutableDictionary*) getEventGuestsWithPhoneNumbersForEventName:(NSString*) eventName;
+-(NSMutableDictionary*) getEventGuestsWithLocationsForEventName:(NSString*) eventName;
 -(MapPin*)getEventLocationForEventName: (NSString*) eventName;
 -(NSDate*)getEventDateForEventName: (NSString*) eventName;
 -(Event*)getEventForEventName:(NSString*) eventName;

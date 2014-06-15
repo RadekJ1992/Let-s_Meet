@@ -8,6 +8,11 @@
 
 #import "meetAppAppDelegate.h"
 
+@interface meetAppAppDelegate() {
+    bool isConnected;
+}
+@end
+
 @implementation meetAppAppDelegate
 
 @synthesize locationManager;
@@ -17,6 +22,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    isConnected = false;
     NSUserDefaults * standardUserDefaults = [NSUserDefaults standardUserDefaults];
     NSString * ip = [standardUserDefaults objectForKey:@"serverIP"];
     NSString * port = [standardUserDefaults objectForKey:@"serverPort"];
@@ -47,7 +53,7 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-
+    [self initNetworkCommunication];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -144,6 +150,7 @@
     
     [inputStream open];
     [outputStream open];
+    isConnected = true;
     
 }
 @end

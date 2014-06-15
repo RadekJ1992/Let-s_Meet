@@ -89,7 +89,7 @@ static sqlite3_stmt *statement = nil;
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *insertSQL = [NSString stringWithFormat:@"insert or replace into guestsTable values (\"%@\",\"%@\",0,0)", guestName, guestPhone];
+        NSString *insertSQL = [NSString stringWithFormat:@"insert or replace into guestsTable values (\"%@\",\"%@\",52.2296756,21.0122287)", guestName, guestPhone];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         int i = sqlite3_step(statement);
@@ -182,7 +182,7 @@ static sqlite3_stmt *statement = nil;
     return nil;
 }
 
--(NSMutableDictionary*) getEventGuestsForEventName:(NSString*) eventName {
+-(NSMutableDictionary*) getEventGuestsWithPhoneNumbersForEventName:(NSString*) eventName {
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
@@ -224,6 +224,62 @@ static sqlite3_stmt *statement = nil;
         
         sqlite3_close(database);
 
+    }
+    return nil;
+}
+
+-(NSMutableDictionary*) getEventGuestsWithLocationsForEventName:(NSString*) eventName {
+    const char *dbpath = [databasePath UTF8String];
+    if (sqlite3_open(dbpath, &database) == SQLITE_OK)
+    {
+        NSString *querySQL = [NSString stringWithFormat: @"select guestName from eventGuestTable where eventName = \"%@\"", eventName];
+        const char *query_stmt = [querySQL UTF8String];
+        NSMutableArray *guestNameArray = [[NSMutableArray alloc]init];
+        if (sqlite3_prepare_v2(database,query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            while (sqlite3_step(statement) == SQLITE_ROW)
+            {
+                NSString *name = [[NSString alloc] initWithUTF8String:
+                                  (const char *) sqlite3_column_text(statement, 0)];
+                [guestNameArray addObject:name];
+            }
+            //sqlite3_finalize(statement);
+            sqlite3_reset(statement);
+            
+            NSMutableDictionary* resultDictionary = [[NSMutableDictionary alloc] init];
+            
+            for (NSString* name in guestNameArray) {
+                NSNumber *latitude;
+                NSNumber *longitude;
+                NSString *guestlatQuerySQL = [NSString stringWithFormat: @"select guestLocationLatitude from guestsTable where guestName = \"%@\"", name];
+                const char *guest_lat_query_stmt = [guestlatQuerySQL UTF8String];
+                if (sqlite3_prepare_v2(database,guest_lat_query_stmt, -1, &statement, NULL) == SQLITE_OK)
+                {
+                    while (sqlite3_step(statement) == SQLITE_ROW)
+                    {
+                        latitude = [NSNumber numberWithFloat:(float) sqlite3_column_double(statement, 0)];
+                    }
+                    sqlite3_reset(statement);
+                }
+                NSString *guestlngQuerySQL = [NSString stringWithFormat: @"select guestLocationLongitude from guestsTable where guestName = \"%@\"", name];
+                const char *guest_lng_query_stmt = [guestlngQuerySQL UTF8String];
+                if (sqlite3_prepare_v2(database,guest_lng_query_stmt, -1, &statement, NULL) == SQLITE_OK)
+                {
+                    while (sqlite3_step(statement) == SQLITE_ROW)
+                    {
+                        longitude = [NSNumber numberWithFloat:(float) sqlite3_column_double(statement, 0)];
+                    }
+                    sqlite3_reset(statement);
+                }
+                [resultDictionary setObject: [[CLLocation alloc] initWithLatitude:[latitude doubleValue] longitude: [longitude doubleValue]] forKey:name];
+            }
+            sqlite3_close(database);
+            return resultDictionary;
+        }
+        
+        
+        sqlite3_close(database);
+        
     }
     return nil;
 }
@@ -318,7 +374,7 @@ static sqlite3_stmt *statement = nil;
     result.eventName = eventName;
     result.pin = [self getEventLocationForEventName:eventName];
     result.eventDate = [self getEventDateForEventName:eventName];
-    result.contacts = [self getEventGuestsForEventName:eventName];
+    result.contacts = [self getEventGuestsWithPhoneNumbersForEventName:eventName];
     return result;
 }
 
