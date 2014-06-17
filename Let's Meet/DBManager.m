@@ -128,7 +128,7 @@ static sqlite3_stmt *statement = nil;
         
         NSString *dateString = [dateFormat stringFromDate:date];
         
-        NSString *insertSQL = [NSString stringWithFormat:@"insert into eventsTable values (\"%@\",\"%f\",\"%f\",\"%@\", 1)", eventName, pin.coordinate.latitude, pin.coordinate.longitude, dateString];
+        NSString *insertSQL = [NSString stringWithFormat:@"insert into eventsTable values (\"%@\",\"%f\",\"%f\",\"%@\", 0)", eventName, pin.coordinate.latitude, pin.coordinate.longitude, dateString];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         int i = sqlite3_step(statement);
