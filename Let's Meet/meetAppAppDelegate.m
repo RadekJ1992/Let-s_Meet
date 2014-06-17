@@ -23,7 +23,8 @@
     NSUserDefaults * standardUserDefaults = [NSUserDefaults standardUserDefaults];
     NSString * ip = [standardUserDefaults objectForKey:@"serverIP"];
     NSString * port = [standardUserDefaults objectForKey:@"serverPort"];
-    if (!ip || !port) {
+    NSString *phoneNumber = (NSString*)[[NSUserDefaults standardUserDefaults] valueForKey:@"phoneNumber"];
+    if (!ip || !port || !phoneNumber) {
         [self registerDefaultsFromSettingsBundle];
     }
     if (nil == locationManager)
@@ -32,7 +33,6 @@
     locationManager.delegate = self;
     [locationManager startMonitoringSignificantLocationChanges];
     [locationManager startUpdatingLocation];
-    [[TCPManager getSharedInstance] sendPacketWithMessage:@"HELLO"];
     return YES;
 }
 							
@@ -64,7 +64,9 @@
 
 
 -(void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
-    NSLog(@"zzwyklegoupdate'a%f, %f" ,[locations[0] coordinate].latitude, [locations[0] coordinate].longitude);
+    NSLog(@"locationUpdate'a%f, %f" ,[locations[0] coordinate].latitude, [locations[0] coordinate].longitude);
+    [[DBManager getSharedInstance] insertUserLocation: [locations[0] coordinate]];
+    [[TCPManager getSharedInstance] sendLocationWithLatitude:(double) [locations[0] coordinate].latitude andLongitude:(double)[locations[0] coordinate].longitude];
 }
 
 
@@ -73,13 +75,13 @@
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     UIAlertView *alertView;
     NSString *text = [[url host] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    // tylko dla debugu
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     NSString *ip = (NSString*)[[NSUserDefaults standardUserDefaults] valueForKey:@"serverIP"];
     NSString *port = (NSString*)[[NSUserDefaults standardUserDefaults] valueForKey:@"serverPort"];
+    NSString *phoneNumber = (NSString*)[[NSUserDefaults standardUserDefaults] valueForKey:@"phoneNumber"];
     
-    NSString *msg = [NSString stringWithFormat:@"%@\n%@\n%@", text, ip, port];
+    NSString *msg = [NSString stringWithFormat:@"%@\n%@\n%@\n%@", text, ip, port,phoneNumber];
     alertView = [[UIAlertView alloc] initWithTitle:[url lastPathComponent] message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alertView show];
     return YES;

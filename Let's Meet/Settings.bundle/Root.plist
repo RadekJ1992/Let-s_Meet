@@ -5,6 +5,18 @@
 	<key>PreferenceSpecifiers</key>
 	<array>
 		<dict>
+			<key>DefaultValue</key>
+			<string>123456789</string>
+			<key>KeyboardType</key>
+			<string>NumberPad</string>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>User Phone Number</string>
+			<key>Key</key>
+			<string>phoneNumber</string>
+		</dict>
+		<dict>
 			<key>Type</key>
 			<string>PSTextFieldSpecifier</string>
 			<key>Title</key>

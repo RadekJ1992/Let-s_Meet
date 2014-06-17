@@ -15,6 +15,7 @@ static NSInputStream *inputStream;
 static NSOutputStream *outputStream;
 static bool isConnected;
 static NSMutableArray *receivedMessages;
+static NSString *phoneNumber;
 
 +(TCPManager*)getSharedInstance{
     if (!sharedInstance) {
@@ -31,6 +32,7 @@ static NSMutableArray *receivedMessages;
     NSUserDefaults * standardUserDefaults = [NSUserDefaults standardUserDefaults];
     NSString * ip = [standardUserDefaults objectForKey:@"serverIP"];
     NSString * port = [standardUserDefaults objectForKey:@"serverPort"];
+    phoneNumber = [standardUserDefaults valueForKey:@"phoneNumber"];
     CFStreamCreatePairWithSocketToHost(NULL, (__bridge CFStringRef) ip, [port intValue], &readStream, &writeStream);
     inputStream = (__bridge_transfer NSInputStream *)readStream;
     outputStream = (__bridge_transfer NSOutputStream *)writeStream;
@@ -71,8 +73,52 @@ static NSMutableArray *receivedMessages;
                         
                         NSString *output = [[NSString alloc] initWithBytes:buffer length:len encoding:NSASCIIStringEncoding];
                         
+                        //wygram konkurs na najbardziej nieczytelny kod!
+                        
                         if (nil != output) {
                             NSLog(@"%@", output);
+                            NSArray* splitArray = [[NSArray alloc] init];
+                            splitArray = [output componentsSeparatedByString:@"|"];
+                            if ([splitArray[0] isEqual: @"EVENT_OK"]) {
+                                if ([splitArray count] == 3) {
+                                    NSNumberFormatter* f = [[NSNumberFormatter alloc] init];
+                                    [f setNumberStyle:NSNumberFormatterDecimalStyle];
+                                    NSNumber* eventID = [f numberFromString:splitArray[2]];
+                                    [[DBManager getSharedInstance] updateEventID:eventID forEventName:splitArray[1]];
+                                }
+                            }
+                            if ([splitArray[0] isEqual:@"REG_OK"]) {
+                                if ([splitArray count] == 6) {
+                                    NSNumberFormatter* f = [[NSNumberFormatter alloc] init];
+                                    [f setNumberStyle:NSNumberFormatterDecimalStyle];
+                                    NSNumber* eventID = [f numberFromString:splitArray[1]];
+                                    MapPin* pin = [[MapPin alloc] init];
+                                    [pin setCoordinate:CLLocationCoordinate2DMake([splitArray[3] doubleValue], [splitArray[4] doubleValue])];
+                                    [[DBManager getSharedInstance] updateEventDetailsForEventID:eventID
+                                                                                  withEventName:splitArray[2]
+                                                                                         onDate:splitArray[5]
+                                                                                     inLocation:pin];
+                                }
+                                
+                            }
+                            if ([splitArray[0] isEqual:@"USR_LOC"]) {
+                                if ([splitArray count] == 4) {
+                                    if (![[[DBManager getSharedInstance] getAllGuestPhones] containsObject:splitArray[1]]) {
+                                        [[DBManager getSharedInstance] addGuestWithName:splitArray[1] andPhone:splitArray[1]];
+                                    }
+                                    NSNumberFormatter* f = [[NSNumberFormatter alloc] init];
+                                    [f setNumberStyle:NSNumberFormatterDecimalStyle];
+                                    NSNumber* eventID = [f numberFromString:splitArray[2]];
+                                    if (![[[[DBManager getSharedInstance] getEventGuestsWithPhoneNumbersForEventName:
+                                            [[DBManager getSharedInstance] getEventNameForEventID:eventID]]
+                                           allValues] containsObject:splitArray[1]]) {
+                                        [[DBManager getSharedInstance] addGuestToEventWithEventID:eventID
+                                                                                  withPhoneNumber:splitArray[1]];
+                                    }
+                                    [[DBManager getSharedInstance] updateGuestPositionForGuestWithPhoneNumber:splitArray[1]
+                                                                                              withCoordinates:CLLocationCoordinate2DMake([splitArray[3] doubleValue], [splitArray[4] doubleValue] )];
+                                }
+                            }
                         }
                     }
                 }
@@ -96,10 +142,39 @@ static NSMutableArray *receivedMessages;
 	}
 }
 
-- (BOOL)sendPacketWithMessage: (NSString*) msg {
+- (void)sendPacketWithMessage: (NSString*) msg {
 	NSData *data = [[NSData alloc] initWithData:[msg dataUsingEncoding:NSASCIIStringEncoding]];
 	[outputStream write:[data bytes] maxLength:[data length]];
-    return YES;
+}
+
+-(void) sendHello {
+    [sharedInstance sendPacketWithMessage: [NSString stringWithFormat: @"HELLO|%@\n",
+                                            phoneNumber]];
+}
+
+-(void) sendLocationWithLatitude: (double) latitude andLongitude:(double) longitude {
+    [sharedInstance sendPacketWithMessage:[NSString stringWithFormat: @"LOC|%@|%f|%f",
+                                           phoneNumber,
+                                           latitude,
+                                           longitude]];
+}
+
+-(void) registerEvent:(Event*) event{
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString *dateString = [dateFormat stringFromDate:[event eventDate]];
+    [sharedInstance sendPacketWithMessage:[NSString stringWithFormat: @"EVENT|%@|%@|%f|%f|%@",
+                                           phoneNumber,
+                                           [event eventName],
+                                           (double)[[event pin] coordinate].latitude,
+                                           (double)[[event pin] coordinate].longitude,
+                                           dateString]];
+}
+
+-(void) registerToEventwithEventName:(NSNumber*) eventID{
+    [sharedInstance sendPacketWithMessage:[NSString stringWithFormat: @"REG|%@|%d",
+                                           phoneNumber,
+                                           [eventID intValue]]];
 }
 
 
