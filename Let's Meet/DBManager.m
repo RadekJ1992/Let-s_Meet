@@ -74,6 +74,15 @@ static sqlite3_stmt *statement = nil;
                 isSuccess = NO;
                 NSLog(@"Failed to create guest-event table, %s", errMsg3);
             }
+            char *errMsg4;
+            const char *sql_stmt_usrloc =
+            "create table if not exists userLocationsTable (id integer primary key autoincrement, userLocationLatitude real, userLocationLongitude real, updateDate text";
+            if (sqlite3_exec(database, sql_stmt_usrloc, NULL, NULL, &errMsg4)
+                != SQLITE_OK)
+            {
+                isSuccess = NO;
+                NSLog(@"Failed to create events table, %s", errMsg4);
+            }
             sqlite3_close(database);
             return  isSuccess;
         }
@@ -419,6 +428,37 @@ static sqlite3_stmt *statement = nil;
     }
     return NO;
 }
+
+-(BOOL) insertUserLocation:(CLLocationCoordinate2D)coordinates {
+    
+    NSDate *date = [NSDate date];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString *dateString = [dateFormat stringFromDate:date];
+    
+    const char *dbpath = [databasePath UTF8String];
+    if (sqlite3_open(dbpath, &database) == SQLITE_OK)
+    {
+        NSString *insertSQL = [NSString stringWithFormat:@"insert into userLocationsTable values (%f,%f,\"%@\"", coordinates.latitude, coordinates.longitude, dateString];
+        const char *insert_stmt = [insertSQL UTF8String];
+        sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
+        int i = sqlite3_step(statement);
+        if (i== SQLITE_DONE)
+        {
+            return YES;
+        }
+        else {
+            return NO;
+        }
+        sqlite3_reset(statement);
+        
+        sqlite3_close(database);
+        
+    }
+    return NO;
+
+}
+
 
 -(void) forceCloseDatabase {
     sqlite3_close(database);

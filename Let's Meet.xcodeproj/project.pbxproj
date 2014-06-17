@@ -31,6 +31,7 @@
 		45208F9F190D2D96003F1ADD /* eventsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45208F9E190D2D96003F1ADD /* eventsListViewController.m */; };
 		45208FA2190D3196003F1ADD /* MapPin.m in Sources */ = {isa = PBXBuildFile; fileRef = 45208FA1190D3196003F1ADD /* MapPin.m */; };
 		45330D4619352764005D5DD9 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 45330D4519352764005D5DD9 /* Settings.bundle */; };
+		45374D561950BFE300A9082E /* TCPManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 45374D551950BFE300A9082E /* TCPManager.m */; };
 		45594AA6194E0F4B00096654 /* showEventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45594AA5194E0F4B00096654 /* showEventViewController.m */; };
 		45682FDC19198BCD002C4861 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 45682FDB19198BCD002C4861 /* libsqlite3.dylib */; };
 		45682FE219198BFE002C4861 /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 45682FE119198BFE002C4861 /* DBManager.m */; };
@@ -84,6 +85,8 @@
 		45208FA0190D3196003F1ADD /* MapPin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapPin.h; sourceTree = "<group>"; };
 		45208FA1190D3196003F1ADD /* MapPin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapPin.m; sourceTree = "<group>"; };
 		45330D4519352764005D5DD9 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = "Let's Meet/Settings.bundle"; sourceTree = "<group>"; };
+		45374D541950BFE300A9082E /* TCPManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCPManager.h; sourceTree = "<group>"; };
+		45374D551950BFE300A9082E /* TCPManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCPManager.m; sourceTree = "<group>"; };
 		45594AA4194E0F4B00096654 /* showEventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = showEventViewController.h; sourceTree = "<group>"; };
 		45594AA5194E0F4B00096654 /* showEventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = showEventViewController.m; sourceTree = "<group>"; };
 		45682FDB19198BCD002C4861 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
@@ -186,6 +189,8 @@
 				45682FE119198BFE002C4861 /* DBManager.m */,
 				450D1BB8191B85260055137F /* Event.h */,
 				450D1BB9191B85260055137F /* Event.m */,
+				45374D541950BFE300A9082E /* TCPManager.h */,
+				45374D551950BFE300A9082E /* TCPManager.m */,
 			);
 			path = "Let's Meet";
 			sourceTree = "<group>";
@@ -333,6 +338,7 @@
 				45208F67190D1F54003F1ADD /* meetAppViewController.m in Sources */,
 				45594AA6194E0F4B00096654 /* showEventViewController.m in Sources */,
 				45208F93190D2C4B003F1ADD /* locationSelectViewController.m in Sources */,
+				45374D561950BFE300A9082E /* TCPManager.m in Sources */,
 				45208F5D190D1F54003F1ADD /* main.m in Sources */,
 				45208F90190D2C0B003F1ADD /* createEventViewController.m in Sources */,
 				45208F61190D1F54003F1ADD /* meetAppAppDelegate.m in Sources */,

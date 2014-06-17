@@ -17,6 +17,7 @@
 }
 
 +(DBManager*)getSharedInstance;
+
 -(BOOL)createDB;
 -(BOOL)addEvent:(NSString*)eventName onDate:(NSDate*)date inLocation:(MapPin*)pin withGuests:(NSMutableDictionary*)contacts;
 -(BOOL)addGuestWithName:(NSString*) guestName andPhone:(NSString*) guestPhone;
@@ -26,6 +27,7 @@
 -(MapPin*)getEventLocationForEventName: (NSString*) eventName;
 -(NSDate*)getEventDateForEventName: (NSString*) eventName;
 -(Event*)getEventForEventName:(NSString*) eventName;
+-(BOOL) insertUserLocation:(CLLocationCoordinate2D) coordinates;
 
 -(BOOL) deleteEventForEventName:(NSString*) eventName;
 -(BOOL) deleteGuestForGuestName:(NSString*) guestName;

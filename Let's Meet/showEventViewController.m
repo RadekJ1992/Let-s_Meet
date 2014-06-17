@@ -53,11 +53,6 @@
     
 }
 
--(void) mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
-    NSLog(@"dupa");
-    NSLog(@"%@", [[view annotation] description]);
-}
-
 
 - (void)didReceiveMemoryWarning
 {

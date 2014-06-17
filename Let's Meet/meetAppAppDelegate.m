@@ -9,7 +9,7 @@
 #import "meetAppAppDelegate.h"
 
 @interface meetAppAppDelegate() {
-    bool isConnected;
+    bool isInBackGround;
 }
 @end
 
@@ -17,12 +17,9 @@
 
 @synthesize locationManager;
 @synthesize bgTask;
-@synthesize inputStream;
-@synthesize outputStream;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    isConnected = false;
     NSUserDefaults * standardUserDefaults = [NSUserDefaults standardUserDefaults];
     NSString * ip = [standardUserDefaults objectForKey:@"serverIP"];
     NSString * port = [standardUserDefaults objectForKey:@"serverPort"];
@@ -33,11 +30,9 @@
         locationManager = [[CLLocationManager alloc] init];
     locationManager.distanceFilter = 500;
     locationManager.delegate = self;
-    [inputStream setDelegate:self];
-    [outputStream setDelegate:self];
     [locationManager startMonitoringSignificantLocationChanges];
-    
-    [self initNetworkCommunication];
+    [locationManager startUpdatingLocation];
+    [[TCPManager getSharedInstance] sendPacketWithMessage:@"HELLO"];
     return YES;
 }
 							
@@ -48,12 +43,11 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-
+    isInBackGround = FALSE;
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-    [self initNetworkCommunication];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -66,35 +60,15 @@
     [locationManager stopUpdatingLocation];
 }
 
-- (void) locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
-{
-    if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
-        *bgTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler: ^{
-            [[UIApplication sharedApplication] endBackgroundTask:*bgTask];
-            CLLocation* location = [locationManager location];
-            NSLog(@"zbgTask%f, %f" ,[location coordinate].latitude, [location coordinate].longitude);
 
-        }];
-        
-        // Make a SYNCHRONOUS call to send the new location to our server
-        CLLocation* location = [locationManager location];
-        NSLog(@"zsynchronouscall%f, %f" ,[location coordinate].latitude, [location coordinate].longitude);
 
-        // Close the task
-        if (*bgTask != UIBackgroundTaskInvalid) {
-            [[UIApplication sharedApplication] endBackgroundTask:*bgTask];
-             *bgTask = UIBackgroundTaskInvalid;
-             }
-        } else {
-            CLLocation* location = [locationManager location];
-            NSLog(@"zelse%f, %f" ,[location coordinate].latitude, [location coordinate].longitude);
-            NSLog(@"he z else");// Handle location updates in the normal way
-        }
-}
 
 -(void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
     NSLog(@"zzwyklegoupdate'a%f, %f" ,[locations[0] coordinate].latitude, [locations[0] coordinate].longitude);
 }
+
+
+
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     UIAlertView *alertView;
@@ -108,7 +82,6 @@
     NSString *msg = [NSString stringWithFormat:@"%@\n%@\n%@", text, ip, port];
     alertView = [[UIAlertView alloc] initWithTitle:[url lastPathComponent] message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alertView show];
-    //END tylko dla debugu
     return YES;
 }
 
@@ -135,22 +108,4 @@
 
 }
 
--(void)initNetworkCommunication {
-    CFReadStreamRef readStream;
-    CFWriteStreamRef writeStream;
-    NSUserDefaults * standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    NSString * ip = [standardUserDefaults objectForKey:@"serverIP"];
-    NSString * port = [standardUserDefaults objectForKey:@"serverPort"];
-    CFStreamCreatePairWithSocketToHost(NULL, (__bridge CFStringRef) ip, [port intValue], &readStream, &writeStream);
-    inputStream = (__bridge_transfer NSInputStream *)readStream;
-    outputStream = (__bridge_transfer NSOutputStream *)writeStream;
-    
-    [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-    [outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-    
-    [inputStream open];
-    [outputStream open];
-    isConnected = true;
-    
-}
 @end
