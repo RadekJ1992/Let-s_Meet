@@ -81,7 +81,19 @@
     NSString *port = (NSString*)[[NSUserDefaults standardUserDefaults] valueForKey:@"serverPort"];
     NSString *phoneNumber = (NSString*)[[NSUserDefaults standardUserDefaults] valueForKey:@"phoneNumber"];
     
-    NSString *msg = [NSString stringWithFormat:@"%@\n%@\n%@\n%@", text, ip, port,phoneNumber];
+    [[DBManager getSharedInstance] addEvent:text onDate:nil inLocation:nil withGuests:nil];
+    /*
+     
+     TODO:
+     sprawdzić czy dodawanie z nilami zadziała
+     usunąć text, ip, port i phoneNumber z UIAlertView bo tylko do debugu są
+     
+     */
+    NSNumberFormatter* f = [[NSNumberFormatter alloc] init];
+    [f setNumberStyle:NSNumberFormatterDecimalStyle];
+    NSNumber* eventID = [f numberFromString:text];
+    [[TCPManager getSharedInstance] registerToEventwithEventName:eventID];
+    NSString *msg = [NSString stringWithFormat:@"Zostałeś zaproszony do wydarzenia!\n%@\n%@\n%@\n%@", text, ip, port,phoneNumber];
     alertView = [[UIAlertView alloc] initWithTitle:[url lastPathComponent] message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alertView show];
     return YES;

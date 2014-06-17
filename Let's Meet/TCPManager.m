@@ -77,8 +77,7 @@ static NSString *phoneNumber;
                         
                         if (nil != output) {
                             NSLog(@"%@", output);
-                            NSArray* splitArray = [[NSArray alloc] init];
-                            splitArray = [output componentsSeparatedByString:@"|"];
+                            NSArray* splitArray = [output componentsSeparatedByString:@"|"];
                             if ([splitArray[0] isEqual: @"EVENT_OK"]) {
                                 if ([splitArray count] == 3) {
                                     NSNumberFormatter* f = [[NSNumberFormatter alloc] init];
