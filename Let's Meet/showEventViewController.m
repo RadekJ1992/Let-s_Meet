@@ -42,6 +42,11 @@
     [mapView setRegion:adjustedRegion animated:YES];
     mapView.showsUserLocation = YES;
     
+    MapPin *eventPin = [[MapPin alloc] init];
+    [eventPin setTitle:[event eventName]];
+    [eventPin setCoordinate:[[event pin] coordinate]];
+    [mapView addAnnotation:eventPin];
+    
     NSMutableDictionary *guestsDictionary = [[DBManager getSharedInstance] getEventGuestsWithLocationsForEventName: [event eventName]];
     
     for (NSString *name in [guestsDictionary allKeys]) {

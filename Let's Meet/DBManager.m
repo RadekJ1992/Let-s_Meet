@@ -434,6 +434,7 @@ static sqlite3_stmt *statement = nil;
     result.pin = [self getEventLocationForEventName:eventName];
     result.eventDate = [self getEventDateForEventName:eventName];
     result.contacts = [self getEventGuestsWithPhoneNumbersForEventName:eventName];
+    result.eventID = [self getEventIDforEventName:eventName];
     return result;
 }
 
@@ -464,7 +465,63 @@ static sqlite3_stmt *statement = nil;
         
     }
     return nil;
+}
 
+-(NSNumber*)getEventIDforEventName:(NSString*) eventName {
+    const char *dbpath = [databasePath UTF8String];
+    if (sqlite3_open(dbpath, &database) == SQLITE_OK)
+    {
+        NSString *querySQL = [NSString stringWithFormat: @"select eventID from eventsTable where eventName=\"%@\"",eventName];
+        const char *query_stmt = [querySQL UTF8String];
+        if (sqlite3_prepare_v2(database,query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            if (sqlite3_step(statement) == SQLITE_ROW)
+            {
+                NSNumber *eventID = [NSNumber numberWithInt:(int) sqlite3_column_double(statement, 0)];
+                sqlite3_reset(statement);
+                sqlite3_close(database);
+                return eventID;
+            }
+            else{
+                NSLog(@"Event not found");
+                return nil;
+            }
+            sqlite3_reset(statement);
+        }
+        
+        sqlite3_close(database);
+        
+    }
+    return nil;
+
+}
+
+-(NSString*)getGuestNameforGuestPhoneNumber:(NSString*) guestPhone {
+    const char *dbpath = [databasePath UTF8String];
+    if (sqlite3_open(dbpath, &database) == SQLITE_OK)
+    {
+        NSString *querySQL = [NSString stringWithFormat: @"select guestName from guestsTable where guestPhone like (\"%@\")", guestPhone];
+        const char *query_stmt = [querySQL UTF8String];
+        if (sqlite3_prepare_v2(database,query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            if (sqlite3_step(statement) == SQLITE_ROW)
+            {
+                NSString *guestName = [[NSString alloc] initWithUTF8String: (const char *) sqlite3_column_text(statement, 0)];
+                sqlite3_reset(statement);
+                sqlite3_close(database);
+                return guestName;
+            }
+            else{
+                NSLog(@"Guest not found");
+                return nil;
+            }
+            sqlite3_reset(statement);
+        }
+        
+        sqlite3_close(database);
+        
+    }
+    return nil;
 }
 
 -(BOOL) deleteGuestForGuestName:(NSString*) guestName {
@@ -543,7 +600,7 @@ static sqlite3_stmt *statement = nil;
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *insertSQL = [NSString stringWithFormat:@"update eventsTable set eventID = %d where eventName like ('%@')", [eventID intValue], eventName];
+        NSString *insertSQL = [NSString stringWithFormat:@"update eventsTable set eventID = %d where eventName like (\"%@\")", [eventID intValue], eventName];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         int i = sqlite3_step(statement);
@@ -567,7 +624,7 @@ static sqlite3_stmt *statement = nil;
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
         [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         NSString *dateString = [dateFormat stringFromDate:date];
-        NSString *insertSQL = [NSString stringWithFormat:@"update eventsTable set eventName = '%@', eventLocationLatitude = %f, eventLocationLongitude = %f, eventDate = %@ where eventID = %d",
+        NSString *insertSQL = [NSString stringWithFormat:@"update eventsTable set eventName = \"%@\", eventLocationLatitude = %f, eventLocationLongitude = %f, eventDate = \"%@\" where eventID = %d",
                                eventName,
                                (double)[pin coordinate].latitude,
                                (double)[pin coordinate].longitude,
@@ -590,12 +647,14 @@ static sqlite3_stmt *statement = nil;
 }
 
 -(BOOL) addGuestToEventWithEventID:(NSNumber*) eventID withPhoneNumber:(NSString*) phoneNumber {
+    NSString* eventName = [sharedInstance getEventNameForEventID:eventID];
+    NSString* guestName = [sharedInstance getGuestNameforGuestPhoneNumber:phoneNumber];
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *insertSQL = [NSString stringWithFormat:@"instert into eventGuestsTable (eventName, guestName) values (select eventName from eventsTable where eventID = %d, select guestName from guestsTable where guestPhone like ('%@'))",
-                               [eventID intValue],
-                               phoneNumber];
+        NSString *insertSQL = [NSString stringWithFormat:@"insert into eventGuestTable (eventName, guestName) values (\"%@\", \"%@\")",
+                               eventName,
+                               guestName];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         int i = sqlite3_step(statement);
@@ -624,7 +683,7 @@ static sqlite3_stmt *statement = nil;
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *insertSQL = [NSString stringWithFormat:@"update guestsTable set guestLocationLatitude = %f, guestLocationLongitude =%f where guestPhone like ('%@')",
+        NSString *insertSQL = [NSString stringWithFormat:@"update guestsTable set guestLocationLatitude = %f, guestLocationLongitude =%f where guestPhone like (\"%@\")",
                                coordinates.latitude,
                                coordinates.longitude,
                                phoneNumber];

@@ -11,6 +11,7 @@
 #import "MapPin.h"
 #import "Event.h"
 #import "DBManager.h"
+#import "TCPManager.h"
 
 @interface createEventViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, MFMessageComposeViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *coordinatesField;

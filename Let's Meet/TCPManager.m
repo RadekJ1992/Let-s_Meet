@@ -82,8 +82,9 @@ static NSString *phoneNumber;
                                 if ([splitArray count] == 3) {
                                     NSNumberFormatter* f = [[NSNumberFormatter alloc] init];
                                     [f setNumberStyle:NSNumberFormatterDecimalStyle];
-                                    NSNumber* eventID = [f numberFromString:splitArray[2]];
-                                    [[DBManager getSharedInstance] updateEventID:eventID forEventName:splitArray[1]];
+                                    NSNumber* eventID = [f numberFromString:splitArray[1]];
+                                    NSString* eventName = [splitArray[2] stringByReplacingOccurrencesOfString:@"\r\n" withString:@""];
+                                    [[DBManager getSharedInstance] updateEventID:eventID forEventName:eventName];
                                 }
                             }
                             if ([splitArray[0] isEqual:@"REG_OK"]) {
@@ -91,17 +92,21 @@ static NSString *phoneNumber;
                                     NSNumberFormatter* f = [[NSNumberFormatter alloc] init];
                                     [f setNumberStyle:NSNumberFormatterDecimalStyle];
                                     NSNumber* eventID = [f numberFromString:splitArray[1]];
+                                    NSString* eventDateString = [splitArray[5] stringByReplacingOccurrencesOfString:@"\r\n" withString:@""];
+                                    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+                                    [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                                    NSDate* eventDate = [dateFormat dateFromString:eventDateString];
                                     MapPin* pin = [[MapPin alloc] init];
                                     [pin setCoordinate:CLLocationCoordinate2DMake([splitArray[3] doubleValue], [splitArray[4] doubleValue])];
                                     [[DBManager getSharedInstance] updateEventDetailsForEventID:eventID
                                                                                   withEventName:splitArray[2]
-                                                                                         onDate:splitArray[5]
+                                                                                         onDate:eventDate
                                                                                      inLocation:pin];
                                 }
                                 
                             }
                             if ([splitArray[0] isEqual:@"USR_LOC"]) {
-                                if ([splitArray count] == 4) {
+                                if ([splitArray count] == 5) {
                                     if (![[[DBManager getSharedInstance] getAllGuestPhones] containsObject:splitArray[1]]) {
                                         [[DBManager getSharedInstance] addGuestWithName:splitArray[1] andPhone:splitArray[1]];
                                     }
@@ -115,7 +120,8 @@ static NSString *phoneNumber;
                                                                                   withPhoneNumber:splitArray[1]];
                                     }
                                     [[DBManager getSharedInstance] updateGuestPositionForGuestWithPhoneNumber:splitArray[1]
-                                                                                              withCoordinates:CLLocationCoordinate2DMake([splitArray[3] doubleValue], [splitArray[4] doubleValue] )];
+                                                                                              withCoordinates:CLLocationCoordinate2DMake([splitArray[3] doubleValue], [[splitArray[4] stringByReplacingOccurrencesOfString:@"\r\n" withString:@""]doubleValue] )];
+                                    [sharedInstance sendPacketWithMessage:@"USR_LOC_OK\n"];
                                 }
                             }
                         }
@@ -152,7 +158,7 @@ static NSString *phoneNumber;
 }
 
 -(void) sendLocationWithLatitude: (double) latitude andLongitude:(double) longitude {
-    [sharedInstance sendPacketWithMessage:[NSString stringWithFormat: @"LOC|%@|%f|%f",
+    [sharedInstance sendPacketWithMessage:[NSString stringWithFormat: @"LOC|%@|%f|%f\n",
                                            phoneNumber,
                                            latitude,
                                            longitude]];
@@ -162,7 +168,7 @@ static NSString *phoneNumber;
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSString *dateString = [dateFormat stringFromDate:[event eventDate]];
-    [sharedInstance sendPacketWithMessage:[NSString stringWithFormat: @"EVENT|%@|%@|%f|%f|%@",
+    [sharedInstance sendPacketWithMessage:[NSString stringWithFormat: @"EVENT|%@|%@|%f|%f|%@\n",
                                            phoneNumber,
                                            [event eventName],
                                            (double)[[event pin] coordinate].latitude,
@@ -171,7 +177,7 @@ static NSString *phoneNumber;
 }
 
 -(void) registerToEventwithEventName:(NSNumber*) eventID{
-    [sharedInstance sendPacketWithMessage:[NSString stringWithFormat: @"REG|%@|%d",
+    [sharedInstance sendPacketWithMessage:[NSString stringWithFormat: @"REG|%@|%d\n",
                                            phoneNumber,
                                            [eventID intValue]]];
 }

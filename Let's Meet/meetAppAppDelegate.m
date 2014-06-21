@@ -57,6 +57,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
+    [locationManager stopMonitoringSignificantLocationChanges];
     [locationManager stopUpdatingLocation];
 }
 
@@ -64,7 +65,7 @@
 
 
 -(void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
-    NSLog(@"locationUpdate'a%f, %f" ,[locations[0] coordinate].latitude, [locations[0] coordinate].longitude);
+    NSLog(@"locationUpdate %f, %f" ,[locations[0] coordinate].latitude, [locations[0] coordinate].longitude);
     [[DBManager getSharedInstance] insertUserLocation: [locations[0] coordinate]];
     [[TCPManager getSharedInstance] sendLocationWithLatitude:(double) [locations[0] coordinate].latitude andLongitude:(double)[locations[0] coordinate].longitude];
 }
@@ -77,23 +78,17 @@
     NSString *text = [[url host] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    NSString *ip = (NSString*)[[NSUserDefaults standardUserDefaults] valueForKey:@"serverIP"];
-    NSString *port = (NSString*)[[NSUserDefaults standardUserDefaults] valueForKey:@"serverPort"];
-    NSString *phoneNumber = (NSString*)[[NSUserDefaults standardUserDefaults] valueForKey:@"phoneNumber"];
+    //NSString *ip = (NSString*)[[NSUserDefaults standardUserDefaults] valueForKey:@"serverIP"];
+    //NSString *port = (NSString*)[[NSUserDefaults standardUserDefaults] valueForKey:@"serverPort"];
+    //NSString *phoneNumber = (NSString*)[[NSUserDefaults standardUserDefaults] valueForKey:@"phoneNumber"];
     
     [[DBManager getSharedInstance] addEvent:text onDate:nil inLocation:nil withGuests:nil];
-    /*
-     
-     TODO:
-     sprawdzić czy dodawanie z nilami zadziała
-     usunąć text, ip, port i phoneNumber z UIAlertView bo tylko do debugu są
-     
-     */
     NSNumberFormatter* f = [[NSNumberFormatter alloc] init];
     [f setNumberStyle:NSNumberFormatterDecimalStyle];
     NSNumber* eventID = [f numberFromString:text];
+    [[DBManager getSharedInstance] updateEventID:eventID forEventName:text];
     [[TCPManager getSharedInstance] registerToEventwithEventName:eventID];
-    NSString *msg = [NSString stringWithFormat:@"Zostałeś zaproszony do wydarzenia!\n%@\n%@\n%@\n%@", text, ip, port,phoneNumber];
+    NSString *msg = [NSString stringWithFormat:@"Zostałeś zaproszony do wydarzenia!"]; //\n%@\n%@\n%@\n%@", text, ip, port,phoneNumber];
     alertView = [[UIAlertView alloc] initWithTitle:[url lastPathComponent] message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alertView show];
     return YES;

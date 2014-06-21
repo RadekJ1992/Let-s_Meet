@@ -47,7 +47,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -87,7 +86,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -124,8 +122,6 @@
 
 -(BOOL) textFieldShouldReturn:(UITextField *)textField{
     if (!event) event = [[Event alloc] init];
-    //NSString* oldName = event.eventName;
-    //if ([oldName isEqualToString:@""]) [[DBManager getSharedInstance ] deleteEventForEventName:oldName];
     event.eventName = textField.text;
     [textField resignFirstResponder];
     return YES;
@@ -135,7 +131,6 @@
     BOOL success = NO;
     NSString *alertString = @"Data Insertion failed";
     if (event.eventDate && event.eventName && event.pin) {
-        //[[DBManager getSharedInstance] forceCloseDatabase];
         [[DBManager getSharedInstance] deleteEventForEventName:oldName];
         success = [[DBManager getSharedInstance]addEvent:event.eventName onDate:event.eventDate inLocation:event.pin withGuests:event.contacts];
         if (success == NO) {
@@ -159,20 +154,25 @@
 }
 
 - (IBAction)sendButtonClicked:(id)sender {
-    MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
-	if([MFMessageComposeViewController canSendText])
-	{
-        NSMutableArray* contactsPhoneNumbers = [[NSMutableArray alloc] init];
-        for (id value in event.contacts.allValues) {
-            [contactsPhoneNumbers addObject:value];
-        }
+    if (![[DBManager getSharedInstance] getEventForEventName: [event eventName]]) [self addEventToDatabase];
+    [event setEventID:[[DBManager getSharedInstance] getEventIDforEventName:[event eventName]]];
+    if ([[event eventID] intValue] != 0) {
+        MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
+        if([MFMessageComposeViewController canSendText])
+        {
+            NSMutableArray* contactsPhoneNumbers = [[NSMutableArray alloc] init];
+            for (id value in event.contacts.allValues) {
+                [contactsPhoneNumbers addObject:value];
+            }
         
-		controller.body = [NSString stringWithFormat:@"meetApp://%@", event.eventID];
-        controller.recipients = contactsPhoneNumbers;
-		//controller.recipients = [NSArray arrayWithObjects:@"12345678", @"87654321", nil];
-		controller.messageComposeDelegate = self;
-		[self presentViewController:controller animated:YES completion:nil];
-	}
+            controller.body = [NSString stringWithFormat:@"meetApp://%@", event.eventID];
+            controller.recipients = contactsPhoneNumbers;
+            controller.messageComposeDelegate = self;
+            [self presentViewController:controller animated:YES completion:nil];
+        }
+    } else {
+        [[TCPManager getSharedInstance] registerEvent:event];
+    }
 }
 
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
