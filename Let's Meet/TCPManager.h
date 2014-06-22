@@ -1,11 +1,3 @@
-//
-//  TCPManager.h
-//  Let's Meet
-//
-//  Created by Radosław Jarzynka on 17.06.2014.
-//  Copyright (c) 2014 Radosław Jarzynka. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 #import "DBManager.h"
 #import "Event.h"

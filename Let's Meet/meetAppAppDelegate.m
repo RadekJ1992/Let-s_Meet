@@ -1,11 +1,3 @@
-//
-//  meetAppAppDelegate.m
-//  Let's Meet
-//
-//  Created by Radosław Jarzynka on 27.04.2014.
-//  Copyright (c) 2014 Radosław Jarzynka. All rights reserved.
-//
-
 #import "meetAppAppDelegate.h"
 
 @interface meetAppAppDelegate() {
@@ -77,10 +69,6 @@
     UIAlertView *alertView;
     NSString *text = [[url host] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    //NSString *ip = (NSString*)[[NSUserDefaults standardUserDefaults] valueForKey:@"serverIP"];
-    //NSString *port = (NSString*)[[NSUserDefaults standardUserDefaults] valueForKey:@"serverPort"];
-    //NSString *phoneNumber = (NSString*)[[NSUserDefaults standardUserDefaults] valueForKey:@"phoneNumber"];
     
     [[DBManager getSharedInstance] addEvent:text onDate:nil inLocation:nil withGuests:nil];
     NSNumberFormatter* f = [[NSNumberFormatter alloc] init];

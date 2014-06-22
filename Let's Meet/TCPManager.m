@@ -1,11 +1,3 @@
-//
-//  TCPManager.m
-//  Let's Meet
-//
-//  Created by Radosław Jarzynka on 17.06.2014.
-//  Copyright (c) 2014 Radosław Jarzynka. All rights reserved.
-//
-
 #import "TCPManager.h"
 
 @implementation TCPManager
@@ -46,6 +38,8 @@ static NSString *phoneNumber;
     [inputStream open];
     [outputStream open];
     
+    [sharedInstance sendHello];
+    
     isConnected = true;
     
 }
@@ -82,8 +76,8 @@ static NSString *phoneNumber;
                                 if ([splitArray count] == 3) {
                                     NSNumberFormatter* f = [[NSNumberFormatter alloc] init];
                                     [f setNumberStyle:NSNumberFormatterDecimalStyle];
-                                    NSNumber* eventID = [f numberFromString:splitArray[1]];
-                                    NSString* eventName = [splitArray[2] stringByReplacingOccurrencesOfString:@"\r\n" withString:@""];
+                                    NSNumber* eventID = [f numberFromString:[splitArray[2] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
+                                    NSString* eventName = [splitArray[1] stringByReplacingOccurrencesOfString:@"\n" withString:@""];
                                     [[DBManager getSharedInstance] updateEventID:eventID forEventName:eventName];
                                 }
                             }
@@ -92,7 +86,7 @@ static NSString *phoneNumber;
                                     NSNumberFormatter* f = [[NSNumberFormatter alloc] init];
                                     [f setNumberStyle:NSNumberFormatterDecimalStyle];
                                     NSNumber* eventID = [f numberFromString:splitArray[1]];
-                                    NSString* eventDateString = [splitArray[5] stringByReplacingOccurrencesOfString:@"\r\n" withString:@""];
+                                    NSString* eventDateString = [splitArray[5] stringByReplacingOccurrencesOfString:@"\n" withString:@""];
                                     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
                                     [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
                                     NSDate* eventDate = [dateFormat dateFromString:eventDateString];
@@ -120,7 +114,7 @@ static NSString *phoneNumber;
                                                                                   withPhoneNumber:splitArray[1]];
                                     }
                                     [[DBManager getSharedInstance] updateGuestPositionForGuestWithPhoneNumber:splitArray[1]
-                                                                                              withCoordinates:CLLocationCoordinate2DMake([splitArray[3] doubleValue], [[splitArray[4] stringByReplacingOccurrencesOfString:@"\r\n" withString:@""]doubleValue] )];
+                                                                                              withCoordinates:CLLocationCoordinate2DMake([splitArray[3] doubleValue], [[splitArray[4] stringByReplacingOccurrencesOfString:@"\n" withString:@""]doubleValue] )];
                                     [sharedInstance sendPacketWithMessage:@"USR_LOC_OK\n"];
                                 }
                             }

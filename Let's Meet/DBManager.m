@@ -1,11 +1,3 @@
-//
-//  DBManager.m
-//  Let's Meet
-//
-//  Created by Radosław Jarzynka on 06.05.2014.
-//  Copyright (c) 2014 Radosław Jarzynka. All rights reserved.
-//
-
 #import "DBManager.h"
 static DBManager *sharedInstance = nil;
 static sqlite3 *database = nil;
@@ -95,10 +87,12 @@ static sqlite3_stmt *statement = nil;
 }
 
 -(BOOL)addGuestWithName:(NSString*) guestName andPhone:(NSString*) guestPhone {
+    NSString* guestPhoneString = [guestPhone stringByTrimmingCharactersInSet:
+                                  [NSCharacterSet whitespaceCharacterSet]];
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *insertSQL = [NSString stringWithFormat:@"insert or replace into guestsTable values (\"%@\",\"%@\",52.2296756,21.0122287)", guestName, guestPhone];
+        NSString *insertSQL = [NSString stringWithFormat:@"insert or replace into guestsTable values (\"%@\",\"%@\",52.2296756,21.0122287)", guestName, guestPhoneString];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         int i = sqlite3_step(statement);
@@ -497,10 +491,12 @@ static sqlite3_stmt *statement = nil;
 }
 
 -(NSString*)getGuestNameforGuestPhoneNumber:(NSString*) guestPhone {
+    NSString* guestPhoneString = [guestPhone stringByTrimmingCharactersInSet:
+                                              [NSCharacterSet whitespaceCharacterSet]];
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
-        NSString *querySQL = [NSString stringWithFormat: @"select guestName from guestsTable where guestPhone like (\"%@\")", guestPhone];
+        NSString *querySQL = [NSString stringWithFormat: @"select guestName from guestsTable where guestPhone like (\"%@\")", guestPhoneString];
         const char *query_stmt = [querySQL UTF8String];
         if (sqlite3_prepare_v2(database,query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
@@ -647,8 +643,11 @@ static sqlite3_stmt *statement = nil;
 }
 
 -(BOOL) addGuestToEventWithEventID:(NSNumber*) eventID withPhoneNumber:(NSString*) phoneNumber {
+    NSString* phoneNumberString = [phoneNumber stringByTrimmingCharactersInSet:
+                                   [NSCharacterSet whitespaceCharacterSet]];
     NSString* eventName = [sharedInstance getEventNameForEventID:eventID];
-    NSString* guestName = [sharedInstance getGuestNameforGuestPhoneNumber:phoneNumber];
+    NSString* guestName = [sharedInstance getGuestNameforGuestPhoneNumber:phoneNumberString];
+    
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK)
     {
@@ -673,10 +672,13 @@ static sqlite3_stmt *statement = nil;
 
 -(BOOL) updateGuestPositionForGuestWithPhoneNumber:(NSString*) phoneNumber withCoordinates:(CLLocationCoordinate2D) coordinates {
     
-    if (![[sharedInstance getAllGuestPhones] containsObject:phoneNumber]) {
+    NSString* phoneNumberString = [ phoneNumber stringByTrimmingCharactersInSet:
+                                   [NSCharacterSet whitespaceCharacterSet]];
+    
+    if (![[sharedInstance getAllGuestPhones] containsObject:phoneNumberString]) {
         sqlite3_reset(statement);
         sqlite3_close(database);
-        [sharedInstance addGuestWithName:phoneNumber andPhone:phoneNumber];
+        [sharedInstance addGuestWithName:phoneNumberString andPhone:phoneNumberString];
     }
     sqlite3_reset(statement);
     sqlite3_close(database);
@@ -686,7 +688,7 @@ static sqlite3_stmt *statement = nil;
         NSString *insertSQL = [NSString stringWithFormat:@"update guestsTable set guestLocationLatitude = %f, guestLocationLongitude =%f where guestPhone like (\"%@\")",
                                coordinates.latitude,
                                coordinates.longitude,
-                               phoneNumber];
+                               phoneNumberString];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         int i = sqlite3_step(statement);
