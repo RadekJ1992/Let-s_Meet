@@ -10,7 +10,9 @@
 @synthesize mapView;
 @synthesize searchBar;
 @synthesize event;
-
+/**
+ obsługa przekazywania obiektów między viewControllerami
+ */
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"coordinates"] ||
         [segue.identifier isEqualToString:@"coordinatesBack"]) {
@@ -34,19 +36,20 @@
 {
     [super viewDidLoad];
     searchBar.delegate = self;
+    //obsługa wciśnięcia i przytrzymania palca na mapie - wybór lokalizacji
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGesture:)];
     [self.mapView addGestureRecognizer:longPressGesture];
     if (!event) event = [[Event alloc] init];
+    //wyświetlenie domyślnej lokalizacji - centrum Warszawy
     MKCoordinateRegion region = { { 0.0, 0.0 }, { 0.0, 0.0 } };
     region.center.latitude = 52.2296756;
     region.center.longitude = 21.0122287;
     region.span.longitudeDelta = 0.01f;
     region.span.latitudeDelta = 0.01f;
-    //[[UIApplication sharedApplication] delegate]
     [mapView setRegion:region animated:YES];
     
 }
-
+//metoda obsługująca wyszukiwanie miejsc na mapie
 -(void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar {
     [theSearchBar resignFirstResponder];
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];

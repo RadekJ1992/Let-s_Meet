@@ -1,8 +1,7 @@
 #import "meetAppAppDelegate.h"
 
-@interface meetAppAppDelegate() {
-    bool isInBackGround;
-}
+@interface meetAppAppDelegate() {}
+
 @end
 
 @implementation meetAppAppDelegate
@@ -12,6 +11,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    //pobranie ustawień z SettingsBundle
+    
     NSUserDefaults * standardUserDefaults = [NSUserDefaults standardUserDefaults];
     NSString * ip = [standardUserDefaults objectForKey:@"serverIP"];
     NSString * port = [standardUserDefaults objectForKey:@"serverPort"];
@@ -19,6 +20,9 @@
     if (!ip || !port || !phoneNumber) {
         [self registerDefaultsFromSettingsBundle];
     }
+    
+    //uruchomienie locationManagera w celu pobierania lokalizacji GPS
+    
     if (nil == locationManager)
         locationManager = [[CLLocationManager alloc] init];
     locationManager.distanceFilter = 500;
@@ -35,7 +39,6 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    isInBackGround = FALSE;
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -49,13 +52,14 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
+    //wyłączenie usług lokalizacji
     [locationManager stopMonitoringSignificantLocationChanges];
     [locationManager stopUpdatingLocation];
 }
 
 
 
-
+//wywoływane po zaktualizowaniu lokalizacji - wprowadzenie jej do bazy danych i wysłanie informacji na serwer
 -(void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
     NSLog(@"locationUpdate %f, %f" ,[locations[0] coordinate].latitude, [locations[0] coordinate].longitude);
     [[DBManager getSharedInstance] insertUserLocation: [locations[0] coordinate]];
@@ -63,8 +67,7 @@
 }
 
 
-
-
+//wywoływane w momencie otworzenia URL'a z ID wydarzenia dostarczonego SMSem
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     UIAlertView *alertView;
     NSString *text = [[url host] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -82,6 +85,7 @@
     return YES;
 }
 
+//przy pierwszym uruchomieniu - ustawienie defaultowych wartości ustawień z SettingsBundle
 - (void)registerDefaultsFromSettingsBundle {
     NSString *settingsBundle = [[NSBundle mainBundle] pathForResource:@"Settings" ofType:@"bundle"];
     if(!settingsBundle) {

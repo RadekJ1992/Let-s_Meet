@@ -6,7 +6,7 @@
 @interface createEventViewController () {
     NSString* oldName;
 }
-
+//metoda dodająca wydarzenie do bazy danych
 -(void)addEventToDatabase;
 
 @end
@@ -19,7 +19,9 @@
 @synthesize contactsTable;
 @synthesize datePicker;
 @synthesize eventNameField;
-
+/**
+ obsługa przekazywania obiektów między viewControllerami
+ */
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"contacts"]) {
         if (event) {
@@ -48,12 +50,14 @@
     [super viewDidLoad];
     [eventNameField setDelegate:self];
     self.contactsTable.dataSource = self;
+    //jeżeli Segue przesłało obiekt reprezentujący wydarzenie - wyświetl jego zawartość, jeśli nie niech będzie pusto
     if (event) {
         oldName = event.eventName;
         [datePicker setDate:event.eventDate];
         eventNameField.text = event.eventName;
         NSString *text = [NSString stringWithFormat:@"%f,%f", event.pin.coordinate.latitude, event.pin.coordinate.longitude];
         CLGeocoder* geocoder = [[CLGeocoder alloc] init];
+        //pobranie adresu na podstawie współrzędnych
         [geocoder reverseGeocodeLocation: [[CLLocation alloc] initWithLatitude:event.pin.coordinate.latitude longitude:event.pin.coordinate.longitude] completionHandler:
          ^(NSArray* placemarks, NSError* error){
              if ([placemarks count] > 0)
@@ -68,9 +72,10 @@
             [contactsNames addObject:key];
         }
     }
-    CGAffineTransform rotate = CGAffineTransformMakeRotation(0/*-1.57*/);
-    rotate = CGAffineTransformScale(rotate, /*.46, 2.25*/ 0.85, .85);
-    CGAffineTransform t0 = CGAffineTransformMakeTranslation(/*3, 22.5*/0,0);
+    //przekształcenie obiektu wyboru daty, gdyż 'teoretycznie' nie ma możliwości zmiany jego rozmiaru
+    CGAffineTransform rotate = CGAffineTransformMakeRotation(0);
+    rotate = CGAffineTransformScale(rotate, 0.85, .85);
+    CGAffineTransform t0 = CGAffineTransformMakeTranslation(0,0);
     datePicker.transform = CGAffineTransformConcat(rotate,t0);
     [self.view addSubview:datePicker];
 }
@@ -83,7 +88,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [[self.event.contacts allKeys] count];
 }
-
+//wczytanie obiektów kontaktów do tabeli
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *unifiedID = @"aCellID";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:unifiedID];
@@ -97,7 +102,7 @@
     return cell;
     
 }
-
+//wywoływane przy zmianie daty
 - (IBAction)dateChanged:(id)sender {
     NSDate* sourceDate = [datePicker date];
     
@@ -111,32 +116,37 @@
     NSDate* destinationDate = [[NSDate alloc] initWithTimeInterval:interval sinceDate:sourceDate];
     event.eventDate = destinationDate;
 }
-
+//po wciśnięciu "OK" przy zmianie nazwy wydarzenia
 -(BOOL) textFieldShouldReturn:(UITextField *)textField{
     if (!event) event = [[Event alloc] init];
     event.eventName = textField.text;
     [textField resignFirstResponder];
     return YES;
 }
-
+//dodanie wydarzenia do bazy danych
 -(void)addEventToDatabase {
     BOOL success = NO;
     NSString *alertString = @"Data Insertion failed";
+    //sprawdzenie czy nie chcemy dodawać pustych danych
     if (event.eventDate && event.eventName && event.pin) {
         [[DBManager getSharedInstance] deleteEventForEventName:oldName];
         success = [[DBManager getSharedInstance]addEvent:event.eventName onDate:event.eventDate inLocation:event.pin withGuests:event.contacts];
         if (success == NO) {
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:
-                                  alertString message:nil
-                                                          delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle: alertString
+                                                           message:nil
+                                                          delegate:nil
+                                                 cancelButtonTitle:@"OK"
+                                                 otherButtonTitles:nil];
             [alert show];
         }
     }
     else{
         alertString = @"Enter all fields";
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:
-                              alertString message:nil
-                                                      delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:alertString
+                                                       message:nil
+                                                      delegate:nil
+                                             cancelButtonTitle:@"OK"
+                                             otherButtonTitles:nil];
         [alert show];
     }
 }
@@ -144,9 +154,11 @@
 - (IBAction)doneButtonClicked:(id)sender {
     [self addEventToDatabase];
 }
-
+//przy wciśnięciu przycisku "Send!"
 - (IBAction)sendButtonClicked:(id)sender {
+    //dodaj event do bazy danych
     if (![[DBManager getSharedInstance] getEventForEventName: [event eventName]]) [self addEventToDatabase];
+    //jeżeli wydarzenie nie zostało zarejestrowane na serwerze (== jego eventID jest równe 0) zrób to
     [event setEventID:[[DBManager getSharedInstance] getEventIDforEventName:[event eventName]]];
     if ([[event eventID] intValue] != 0) {
         MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
@@ -167,6 +179,7 @@
     }
 }
 
+//działanie po wysłaniu SMSa
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
 {
 	switch (result) {

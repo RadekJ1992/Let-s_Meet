@@ -12,7 +12,9 @@
 @synthesize eventTable;
 @synthesize eventNames;
 @synthesize event;
-
+/**
+ obsługa przekazywania obiektów między viewControllerami
+ */
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"eventToShow"]) {
         if (event) {
@@ -34,21 +36,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //załaduj dane z bazy
     self.eventTable.dataSource = self;
     self.eventTable.delegate = self;
     self.eventTable.allowsMultipleSelectionDuringEditing = NO;
     eventNames = [[DBManager getSharedInstance] getAllEventsNames];
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [eventNames count];
 }
 
+//utworzenie komórki w tabeli
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *unifiedID = @"aCellID";
@@ -62,7 +61,7 @@
     return cell;
     
 }
-
+//zaznaczenie komórki w tabelu i wywołanie jej viewControllera
 - (void)tableView: (UITableView *)tableView didSelectRowAtIndexPath: (NSIndexPath *)indexPath {
     
     UITableViewCell* cell = (UITableViewCell *)[[self eventTable] cellForRowAtIndexPath:indexPath];
@@ -73,10 +72,10 @@
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return YES if you want the specified item to be editable.
+    
     return YES;
 }
-
+//usunięcie eventu z bazy danych przez przesunięcie jego komórki w tabeli w lewo i zaznaczenie "usuń"
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         UITableViewCell* cell = (UITableViewCell *)[[self eventTable] cellForRowAtIndexPath:indexPath];
@@ -93,7 +92,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

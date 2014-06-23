@@ -16,11 +16,9 @@ static sqlite3_stmt *statement = nil;
 -(BOOL)createDB{
     NSString *docsDir;
     NSArray *dirPaths;
-    // Get the documents directory
     dirPaths = NSSearchPathForDirectoriesInDomains
     (NSDocumentDirectory, NSUserDomainMask, YES);
     docsDir = dirPaths[0];
-    // Build the path to the database file
     databasePath = [[NSString alloc] initWithString:
                     [docsDir stringByAppendingPathComponent: @"letsMeet.db"]];
     BOOL isSuccess = YES;
@@ -30,6 +28,7 @@ static sqlite3_stmt *statement = nil;
         const char *dbpath = [databasePath UTF8String];
         if (sqlite3_open(dbpath, &database) == SQLITE_OK)
         {
+            //włączenie kluczy obcych, domyślnie są wyłączone w celu zapewnienia kompatybilności wstecz z poprzednimi wersjami sqlite
             char *errMsg0;
             const char *sql_pragma_stmt = "PRAGMA foreign_keys=ON";
             if (sqlite3_exec(database, sql_pragma_stmt, NULL, NULL, &errMsg0)
@@ -39,6 +38,7 @@ static sqlite3_stmt *statement = nil;
                 NSLog(@"Failed to execute pragma query, %s", errMsg0);
             }
             
+            //utworzenie tabeli wydarzeń
             char *errMsg1;
             const char *sql_stmt_events =
             "create table if not exists eventsTable (eventName text primary key, eventLocationLatitude real, eventLocationLongitude real, eventDate text, eventID integer)";
@@ -48,6 +48,8 @@ static sqlite3_stmt *statement = nil;
                 isSuccess = NO;
                 NSLog(@"Failed to create events table, %s", errMsg1);
             }
+            
+            //utworzenie tabeli gości
             char *errMsg2;
             const char *sql_stmt_guests =
             "create table if not exists guestsTable (guestName text primary key, guestPhone text, guestLocationLatitude real, guestLocationLongitude real)";
@@ -57,6 +59,8 @@ static sqlite3_stmt *statement = nil;
                 isSuccess = NO;
                 NSLog(@"Failed to create guests table, %s", errMsg2);
             }
+            
+            //utworzenie tabeli spinającej gości z wydarzeniami
             char *errMsg3;
             const char *sql_stmt_event_guest =
             "create table if not exists eventGuestTable (id integer primary key autoincrement, eventName text, guestName text, foreign key (eventName) references eventsTable(eventName) on update cascade , foreign key (guestName) references guestsTable(guestName) on update cascade)";
@@ -66,6 +70,8 @@ static sqlite3_stmt *statement = nil;
                 isSuccess = NO;
                 NSLog(@"Failed to create guest-event table, %s", errMsg3);
             }
+            
+            //utworzenie tabeli przechowującej lokalizację użytkownika
             char *errMsg4;
             const char *sql_stmt_usrloc =
             "create table if not exists userLocationsTable (id integer primary key autoincrement, userLocationLatitude real, userLocationLongitude real, updateDate text";
@@ -134,6 +140,7 @@ static sqlite3_stmt *statement = nil;
                 int i = sqlite3_open(dbpath, &database);
                 if ( i == SQLITE_OK)
                 {
+                    //dodanie wpisu do tabeli spinającej gości z wydarzeniami dla każdego przypisanego kontaktu
                     NSString *insertEventGuestSQL = [NSString stringWithFormat:@"insert or replace into eventGuestTable (eventName, guestName) values (\"%@\", \"%@\")",eventName, key];
                     const char *insert_stmt = [insertEventGuestSQL UTF8String];
                     sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
@@ -250,7 +257,6 @@ static sqlite3_stmt *statement = nil;
                                   (const char *) sqlite3_column_text(statement, 0)];
                 [guestNameArray addObject:name];
             }
-            //sqlite3_finalize(statement);
             sqlite3_reset(statement);
             
             NSMutableDictionary* resultDictionary = [[NSMutableDictionary alloc] init];

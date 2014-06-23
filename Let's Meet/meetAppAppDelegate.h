@@ -2,7 +2,9 @@
 #import <CoreLocation/CoreLocation.h>
 #import "TCPManager.h"
 
-
+/**
+ Delegat całej aplikacji
+ */
 @interface meetAppAppDelegate : UIResponder <UIApplicationDelegate, CLLocationManagerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;

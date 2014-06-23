@@ -1,6 +1,8 @@
 #import <Foundation/Foundation.h>
 #import "MapPin.h"
-
+/**
+ obiekt reprezentujący wydarzenie
+ */
 @interface Event : NSObject
 
 @property(strong, nonatomic) MapPin* pin;
